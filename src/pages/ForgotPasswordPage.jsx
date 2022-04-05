@@ -36,9 +36,9 @@ export default function ForgotPasswordPage() {
             try {
               await forgotPassword(email);
               toast({
-                description: `An email is sent to ${email} for password reset instructions.`,
+                description: `${email} руу нууц үгээ шинчлэх линк явууллаа.`,
                 status: "success",
-                duration: 9000,
+                duration: 5000,
                 isClosable: true,
               });
             } catch (error) {
@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
               toast({
                 description: error.message,
                 status: "error",
-                duration: 9000,
+                duration: 5000,
                 isClosable: true,
               });
             }

@@ -1,9 +1,7 @@
 import {
   Box,
   Button,
-  HStack,
   IconButton,
-  Spacer,
   useColorMode,
   useColorModeValue,
   Link,
@@ -11,14 +9,30 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { FaMoon, FaSun, FaBars } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaMoon,
+  FaSun,
+  FaBars,
+  FaEquals,
+  FaBook,
+  FaUser,
+  FaMarker,
+} from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
-import { SearchBar } from "./SearchBar";
 
-export function Navbar() {
+export function DashboardNav() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
   const { logout, currentUser } = useAuth();
@@ -27,15 +41,25 @@ export function Navbar() {
     <Box
       borderBottom="2px"
       borderBottomColor={useColorModeValue("gray.100", "gray.600")}
-      mb={4}
       py={4}
       bg={useColorModeValue("gray.100", "gray.600")}
+      w="100%"
+      position="fixed"
+      zIndex="1"
     >
       <Box display="flex" justifyContent="space-between">
+        <Button
+          display={{ md: "none", base: "block" }}
+          variant="outline"
+          ml="4"
+          onClick={onOpen}
+        >
+          <FaEquals />
+        </Button>
         <Link
           href="/"
           _hover={{ textDecor: "none", color: "green.500" }}
-          ml={{ md: "10", base: "4" }}
+          ml={{ md: "10", base: "0" }}
           display={{ md: "block", base: "none" }}
         >
           <Button variant="unstyled">Skill Share Blog</Button>
@@ -48,8 +72,6 @@ export function Navbar() {
         >
           <Button variant="outline">SSB</Button>
         </Link>
-        <SearchBar />
-
         <Box display={{ md: "block", base: "none" }} mr="10">
           {!currentUser && <Navlink to="/login" name="Нэвтрэх" />}
           {!currentUser && <Navlink to="/register" name="Бүртгүүлэх" />}
@@ -109,6 +131,51 @@ export function Navbar() {
           </MenuList>
         </Menu>
       </Box>
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        // finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+
+          <DrawerBody>
+            <Button
+              w="90%"
+              display="flex"
+              justifyContent="flex-start"
+              alignItems="center"
+              my="2"
+              leftIcon={<FaBook />}
+              mt="20"
+            >
+              Бүх нийтлэлүүд
+            </Button>
+            <Button
+              w="90%"
+              display="flex"
+              justifyContent="flex-start"
+              alignItems="center"
+              my="2"
+              leftIcon={<FaMarker />}
+            >
+              Нийтлэл бичих
+            </Button>
+            <Button
+              w="90%"
+              display="flex"
+              justifyContent="flex-start"
+              alignItems="center"
+              my="2"
+              leftIcon={<FaUser />}
+            >
+              Хэрэглэгч
+            </Button>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
   );
 }
