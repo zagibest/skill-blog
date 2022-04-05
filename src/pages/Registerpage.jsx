@@ -36,7 +36,7 @@ export default function Registerpage() {
   return (
     <Layout>
       <Heading textAlign="center" my={12}>
-        Register
+        Бүртгүүлэх
       </Heading>
       <Card maxW="md" mx="auto" mt={4}>
         <chakra.form
@@ -71,7 +71,7 @@ export default function Registerpage() {
         >
           <Stack spacing="6">
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Цахим шуудан</FormLabel>
               <Input
                 name="email"
                 type="email"
@@ -82,7 +82,7 @@ export default function Registerpage() {
               />
             </FormControl>
             <FormControl id="password">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Нууц үг</FormLabel>
               <Input
                 name="password"
                 type="password"
@@ -99,16 +99,16 @@ export default function Registerpage() {
               fontSize="md"
               isLoading={isSubmitting}
             >
-              Sign up
+              Бүртгүүлэх
             </Button>
           </Stack>
         </chakra.form>
         <Center my={4}>
           <Button variant="link" onClick={() => history.push("/login")}>
-            Login
+            Нэвтрэх
           </Button>
         </Center>
-        <DividerWithText my={6}>OR</DividerWithText>
+        <DividerWithText my={6}>ЭСВЭЛ</DividerWithText>
         <Button
           variant="outline"
           isFullWidth
@@ -120,7 +120,7 @@ export default function Registerpage() {
               .catch((e) => console.log(e.message))
           }
         >
-          Sign in with Google
+          Google ээр нэвтрэх
         </Button>
       </Card>
     </Layout>

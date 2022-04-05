@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
   return (
     <Layout>
       <Heading textAlign="center" my={12}>
-        Forgot password
+        Нууц үг мартсан
       </Heading>
       <Card maxW="md" mx="auto" mt={4}>
         <chakra.form
@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
         >
           <Stack spacing="6">
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Цахим шуудан</FormLabel>
               <Input
                 name="email"
                 type="email"
@@ -65,14 +65,14 @@ export default function ForgotPasswordPage() {
               />
             </FormControl>
             <Button type="submit" colorScheme="green" size="lg" fontSize="md">
-              Submit
+              Илгээх
             </Button>
           </Stack>
         </chakra.form>
-        <DividerWithText my={6}>OR</DividerWithText>
+        <DividerWithText my={6}>ЭСВЭЛ</DividerWithText>
         <Center>
           <Button variant="link" onClick={() => history.push("/login")}>
-            Login
+            Нэвтрэх
           </Button>
         </Center>
       </Card>

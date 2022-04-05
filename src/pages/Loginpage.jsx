@@ -50,7 +50,7 @@ export default function Loginpage() {
   return (
     <Layout>
       <Heading textAlign="center" my={12}>
-        Login
+        Нэвтрэх
       </Heading>
       <Card maxW="md" mx="auto" mt={4}>
         <chakra.form
@@ -91,7 +91,7 @@ export default function Loginpage() {
         >
           <Stack spacing="6">
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Цахим шуудан</FormLabel>
               <Input
                 name="email"
                 type="email"
@@ -102,7 +102,7 @@ export default function Loginpage() {
               />
             </FormControl>
             <FormControl id="password">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Нууц үг</FormLabel>
               <Input
                 name="password"
                 type="password"
@@ -120,19 +120,19 @@ export default function Loginpage() {
               fontSize="md"
               isLoading={isSubmitting}
             >
-              Sign in
+              Нэвтрэх
             </Button>
           </Stack>
         </chakra.form>
         <HStack justifyContent="space-between" my={4}>
           <Button variant="link">
-            <Link to="/forgot-password">Forgot password?</Link>
+            <Link to="/forgot-password">Нууц үг мартсан?</Link>
           </Button>
           <Button variant="link" onClick={() => history.push("/register")}>
-            Register
+            Бүртгүүлэх
           </Button>
         </HStack>
-        <DividerWithText my={6}>OR</DividerWithText>
+        <DividerWithText my={6}>ЭСВЭЛ</DividerWithText>
         <Button
           variant="outline"
           isFullWidth
@@ -147,7 +147,7 @@ export default function Loginpage() {
               .catch((e) => console.log(e.message))
           }
         >
-          Sign in with Google
+          Google хаягаар нэвтрэх
         </Button>
       </Card>
     </Layout>

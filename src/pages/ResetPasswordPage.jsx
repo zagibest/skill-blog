@@ -31,7 +31,7 @@ export default function ResetPasswordPage() {
   return (
     <Layout>
       <Heading textAlign="center" my={12}>
-        Reset password
+        Нууц үг шинчлэх
       </Heading>
       <Card maxW="md" mx="auto" mt={4}>
         <chakra.form
@@ -59,7 +59,7 @@ export default function ResetPasswordPage() {
         >
           <Stack spacing="6">
             <FormControl id="password">
-              <FormLabel>New password</FormLabel>
+              <FormLabel>Шинэ нууц үг</FormLabel>
               <Input
                 type="password"
                 autoComplete="password"
@@ -69,7 +69,7 @@ export default function ResetPasswordPage() {
               />
             </FormControl>
             <Button type="submit" colorScheme="green" size="lg" fontSize="md">
-              Reset password
+              Шинчлэх
             </Button>
           </Stack>
         </chakra.form>

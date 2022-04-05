@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, useColorModeValue } from "@chakra-ui/react";
 import { Navbar } from "./Navbar";
 
 export function Layout({ children }) {
   return (
-    <Box mb={16}>
+    <Box bg={useColorModeValue("gray.50", "gray.700")} minH="100vh" w="100%">
       <Navbar />
       <Container maxW="container.lg">{children}</Container>
     </Box>
