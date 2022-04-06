@@ -39,7 +39,7 @@ export default function Loginpage() {
 
   function handleRedirectToOrBack() {
     // console.log(location?.state)
-    history.replace(location.state?.from ?? "/profile");
+    history.replace(location.state?.from ?? "/dashboard");
     // if (location.state) {
     //   history.replace(location.state?.from)
     // } else {
@@ -65,7 +65,6 @@ export default function Loginpage() {
               });
               return;
             }
-            // your login logic here
             setIsSubmitting(true);
             login(email, password)
               .then((res) => {

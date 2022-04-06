@@ -40,6 +40,7 @@ export function DashboardNav() {
     <Box
       h="16"
       bg={useColorModeValue("green.500", "gray.600")}
+      // bg="#02054B"
       w="100%"
       zIndex="1"
       color="whiteAlpha.900"

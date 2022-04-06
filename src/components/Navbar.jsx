@@ -87,6 +87,9 @@ export function Navbar() {
           )}
           {currentUser && (
             <Navlink
+              _hover={{
+                bg: "green.400",
+              }}
               to="/logout"
               rightIcon={<FaSignOutAlt />}
               onClick={async (e) => {
