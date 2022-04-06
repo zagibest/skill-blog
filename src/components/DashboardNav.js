@@ -11,8 +11,6 @@ import {
   MenuItem,
   Drawer,
   DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
@@ -27,6 +25,7 @@ import {
   FaBook,
   FaUser,
   FaMarker,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
@@ -39,13 +38,12 @@ export function DashboardNav() {
 
   return (
     <Box
-      borderBottom="2px"
-      borderBottomColor={useColorModeValue("gray.100", "gray.600")}
       py={4}
-      bg={useColorModeValue("gray.100", "gray.600")}
+      bg={useColorModeValue("green.500", "gray.600")}
       w="100%"
       position="fixed"
       zIndex="1"
+      color="whiteAlpha.900"
     >
       <Box display="flex" justifyContent="space-between">
         <Button
@@ -73,26 +71,19 @@ export function DashboardNav() {
           <Button variant="outline">SSB</Button>
         </Link>
         <Box display={{ md: "block", base: "none" }} mr="10">
-          {!currentUser && <Navlink to="/login" name="Нэвтрэх" />}
-          {!currentUser && <Navlink to="/register" name="Бүртгүүлэх" />}
           {currentUser && <Navlink to="/profile" name="Dashboard" />}
           {currentUser && (
             <Navlink
+              ml="2"
               to="/logout"
-              name="Гарах"
+              rightIcon={<FaSignOutAlt />}
+              _hover={{ bg: "green.400" }}
               onClick={async (e) => {
                 e.preventDefault();
                 await logout();
               }}
             />
           )}
-          <IconButton
-            variant="ghost"
-            icon={useColorModeValue(<FaSun />, <FaMoon />)}
-            onClick={toggleColorMode}
-            aria-label="toggle-dark-mode"
-            ml="2"
-          />
         </Box>
         <Menu>
           <MenuButton
@@ -121,12 +112,16 @@ export function DashboardNav() {
               </MenuItem>
             )}
             <MenuItem>
-              <IconButton
-                variant="ghost"
-                icon={useColorModeValue(<FaSun />, <FaMoon />)}
-                onClick={toggleColorMode}
-                aria-label="toggle-dark-mode"
-              />
+              {currentUser && (
+                <Navlink
+                  to="/logout"
+                  name="Гарах"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await logout();
+                  }}
+                />
+              )}
             </MenuItem>
           </MenuList>
         </Menu>

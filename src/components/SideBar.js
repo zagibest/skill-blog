@@ -19,13 +19,14 @@ export function SideBar() {
     <Box display={{ md: "block", base: "none" }}>
       <Box
         w={open ? "200px" : "80px"}
-        bg={useColorModeValue("gray.100", "gray.600")}
+        bg={useColorModeValue("white", "gray.600")}
         h="100vh"
         display="flex"
         flexDir="column"
         alignItems="center"
         position="fixed"
         justifyContent="space-between"
+        boxShadow="base"
       >
         {open && (
           <Box
@@ -42,6 +43,7 @@ export function SideBar() {
               alignItems="center"
               my="2"
               leftIcon={<FaBook />}
+              variant="ghost"
             >
               Бүх нийтлэлүүд
             </Button>
@@ -52,6 +54,7 @@ export function SideBar() {
               alignItems="center"
               my="2"
               leftIcon={<FaMarker />}
+              variant="ghost"
             >
               Нийтлэл бичих
             </Button>
@@ -62,6 +65,7 @@ export function SideBar() {
               alignItems="center"
               my="2"
               leftIcon={<FaUser />}
+              variant="ghost"
             >
               Хэрэглэгч
             </Button>
@@ -75,13 +79,13 @@ export function SideBar() {
             alignItems="center"
             w="100%"
           >
-            <Button w="90%" my="2">
+            <Button w="90%" my="2" variant="ghost">
               <FaBook />
             </Button>
-            <Button w="90%" my="2">
+            <Button w="90%" my="2" variant="ghost">
               <FaMarker />
             </Button>
-            <Button w="90%" my="2">
+            <Button w="90%" my="2" variant="ghost">
               <FaUser />
             </Button>
           </Box>
@@ -92,7 +96,7 @@ export function SideBar() {
           justifyContent={open ? "flex-end" : "center"}
           mb="5"
         >
-          <Button onClick={handleOpen}>
+          <Button onClick={handleOpen} variant="ghost">
             {open ? <FaChevronLeft /> : <FaChevronRight />}
           </Button>
         </Box>
