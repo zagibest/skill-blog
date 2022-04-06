@@ -26,12 +26,17 @@ export function Navbar() {
   return (
     <Box
       mb={4}
-      py={4}
+      h="16"
       bg={useColorModeValue("green.500", "gray.600")}
       w="100%"
       color="whiteAlpha.900"
     >
-      <Box display="flex" justifyContent="space-between">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        h="100%"
+      >
         <Link
           href="/"
           _hover={{ textDecor: "none" }}
