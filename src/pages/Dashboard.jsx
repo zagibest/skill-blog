@@ -60,7 +60,12 @@ export default function Dashboard() {
           mt="16"
           ml={{ md: open ? "200px" : "80px", base: "0" }}
         >
-          <Box p="10" bg="white" m={{ md: "10", base: "4" }} borderRadius="10">
+          <Box
+            p={{ md: "10", base: "4" }}
+            bg="white"
+            m={{ md: "10", base: "4" }}
+            borderRadius="10"
+          >
             <ControlledEditor />
           </Box>
         </Box>
