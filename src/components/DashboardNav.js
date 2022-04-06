@@ -38,14 +38,19 @@ export function DashboardNav() {
 
   return (
     <Box
-      py={4}
+      h="16"
       bg={useColorModeValue("green.500", "gray.600")}
       w="100%"
-      position="fixed"
       zIndex="1"
       color="whiteAlpha.900"
+      position="fixed"
     >
-      <Box display="flex" justifyContent="space-between">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        h="100%"
+      >
         <Button
           display={{ md: "none", base: "block" }}
           variant="outline"
@@ -56,7 +61,7 @@ export function DashboardNav() {
         </Button>
         <Link
           href="/"
-          _hover={{ textDecor: "none", color: "green.500" }}
+          _hover={{ textDecor: "none" }}
           ml={{ md: "10", base: "0" }}
           display={{ md: "block", base: "none" }}
         >
@@ -68,63 +73,21 @@ export function DashboardNav() {
           ml={{ md: "10", base: "4" }}
           display={{ md: "none", base: "block" }}
         >
-          <Button variant="outline">SSB</Button>
+          <Button variant="unstyled" fontWeight="black" fontSize="lg">
+            SSB
+          </Button>
         </Link>
-        <Box display={{ md: "block", base: "none" }} mr="10">
-          {currentUser && <Navlink to="/profile" name="Dashboard" />}
-          {currentUser && (
-            <Navlink
-              ml="2"
-              to="/logout"
-              rightIcon={<FaSignOutAlt />}
-              _hover={{ bg: "green.400" }}
-              onClick={async (e) => {
-                e.preventDefault();
-                await logout();
-              }}
-            />
-          )}
-        </Box>
-        <Menu>
-          <MenuButton
-            as={Button}
-            variant="outline"
-            display={{ md: "none", base: "block" }}
-            mr="4"
-          >
-            <FaBars />
-          </MenuButton>
-          <MenuList>
-            {!currentUser && (
-              <>
-                <MenuItem>
-                  <Navlink to="/login" name="Нэвтрэх" />
-                </MenuItem>
-                <MenuItem>
-                  <Navlink to="/register" name="Бүртгүүлэх" />
-                </MenuItem>
-              </>
-            )}
 
-            {currentUser && (
-              <MenuItem>
-                <Navlink to="/profile" name="Dashboard" />
-              </MenuItem>
-            )}
-            <MenuItem>
-              {currentUser && (
-                <Navlink
-                  to="/logout"
-                  name="Гарах"
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await logout();
-                  }}
-                />
-              )}
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <Navlink
+          mr="4"
+          fontSize="20"
+          to="/logout"
+          leftIcon={<FaSignOutAlt />}
+          onClick={async (e) => {
+            e.preventDefault();
+            await logout();
+          }}
+        />
       </Box>
       <Drawer
         isOpen={isOpen}
@@ -174,3 +137,27 @@ export function DashboardNav() {
     </Box>
   );
 }
+
+// <Menu>
+//           <MenuButton
+//             as={Button}
+//             variant="outline"
+//             display={{ md: "none", base: "block" }}
+//             mr="4"
+//           >
+//             <FaBars />
+//           </MenuButton>
+//           <MenuList>
+//             {currentUser && (
+//               <>
+//                 <MenuItem>
+//                   <Navlink to="/profile" name="Dashboard" />
+//                 </MenuItem>
+
+//                 <MenuItem>
+
+//                 </MenuItem>
+//               </>
+//             )}
+//           </MenuList>
+//         </Menu>

@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  HStack,
-  IconButton,
-  Spacer,
-  useColorMode,
+  // HStack,
+  // IconButton,
+  // Spacer,
+  // useColorMode,
   useColorModeValue,
   Link,
   Menu,
@@ -13,13 +13,13 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import React from "react";
-import { FaMoon, FaSun, FaBars, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 import { SearchBar } from "./SearchBar";
 
 export function Navbar() {
-  const { toggleColorMode } = useColorMode();
+  // const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
   const { logout, currentUser } = useAuth();
 
@@ -78,7 +78,7 @@ export function Navbar() {
 
           {currentUser && (
             <Navlink
-              to="/profile"
+              to="/dashboard"
               _hover={{
                 bg: "green.400",
               }}
@@ -102,10 +102,12 @@ export function Navbar() {
             variant="outline"
             display={{ md: "none", base: "block" }}
             mr="4"
+            _focus={{ bg: "green.400" }}
+            _hover={{ bg: "green.400" }}
           >
             <FaBars />
           </MenuButton>
-          <MenuList>
+          <MenuList color="black">
             {!currentUser && (
               <>
                 <MenuItem>
@@ -118,9 +120,21 @@ export function Navbar() {
             )}
 
             {currentUser && (
-              <MenuItem>
-                <Navlink to="/profile" name="Dashboard" />
-              </MenuItem>
+              <>
+                <MenuItem>
+                  <Navlink to="/dashboard" name="Dashboard" />
+                </MenuItem>
+                <MenuItem>
+                  <Navlink
+                    to="/logout"
+                    rightIcon={<FaSignOutAlt />}
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await logout();
+                    }}
+                  />
+                </MenuItem>
+              </>
             )}
           </MenuList>
         </Menu>

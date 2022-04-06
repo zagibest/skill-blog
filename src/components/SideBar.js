@@ -8,13 +8,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 
-export function SideBar() {
-  const [open, setOpen] = useState(true);
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-
+export function SideBar({ open, handleOpen }) {
   return (
     <Box display={{ md: "block", base: "none" }}>
       <Box
@@ -30,11 +24,11 @@ export function SideBar() {
       >
         {open && (
           <Box
-            mt="20"
             w="100%"
             display="flex"
             flexDir="column"
             alignItems="center"
+            mt="20"
           >
             <Button
               w="90%"
@@ -42,7 +36,7 @@ export function SideBar() {
               justifyContent="flex-start"
               alignItems="center"
               my="2"
-              leftIcon={<FaBook />}
+              leftIcon={<FaBook color="green" />}
               variant="ghost"
             >
               Бүх нийтлэлүүд
@@ -53,7 +47,7 @@ export function SideBar() {
               justifyContent="flex-start"
               alignItems="center"
               my="2"
-              leftIcon={<FaMarker />}
+              leftIcon={<FaMarker color="green" />}
               variant="ghost"
             >
               Нийтлэл бичих
@@ -64,7 +58,7 @@ export function SideBar() {
               justifyContent="flex-start"
               alignItems="center"
               my="2"
-              leftIcon={<FaUser />}
+              leftIcon={<FaUser color="green" />}
               variant="ghost"
             >
               Хэрэглэгч
@@ -80,13 +74,13 @@ export function SideBar() {
             w="100%"
           >
             <Button w="90%" my="2" variant="ghost">
-              <FaBook />
+              <FaBook color="green" />
             </Button>
             <Button w="90%" my="2" variant="ghost">
-              <FaMarker />
+              <FaMarker color="green" />
             </Button>
             <Button w="90%" my="2" variant="ghost">
-              <FaUser />
+              <FaUser color="green" />
             </Button>
           </Box>
         )}
@@ -96,7 +90,7 @@ export function SideBar() {
           justifyContent={open ? "flex-end" : "center"}
           mb="5"
         >
-          <Button onClick={handleOpen} variant="ghost">
+          <Button onClick={() => handleOpen()} variant="ghost">
             {open ? <FaChevronLeft /> : <FaChevronRight />}
           </Button>
         </Box>
