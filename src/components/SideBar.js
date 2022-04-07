@@ -8,7 +8,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 
-export function SideBar({ open, handleOpen }) {
+export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
   return (
     <Box display={{ md: "block", base: "none" }}>
       <Box
@@ -38,6 +38,9 @@ export function SideBar({ open, handleOpen }) {
               my="2"
               leftIcon={<FaBook color="green" />}
               variant="ghost"
+              bg={currentMenu === 1 ? "gray.100" : "none"}
+              onClick={() => setMenuNumber(1)}
+              _focus={{ border: "none" }}
             >
               Бүх нийтлэлүүд
             </Button>
@@ -49,6 +52,9 @@ export function SideBar({ open, handleOpen }) {
               my="2"
               leftIcon={<FaMarker color="green" />}
               variant="ghost"
+              bg={currentMenu === 2 ? "gray.100" : "none"}
+              onClick={() => setMenuNumber(2)}
+              _focus={{ border: "none" }}
             >
               Нийтлэл бичих
             </Button>
@@ -60,6 +66,9 @@ export function SideBar({ open, handleOpen }) {
               my="2"
               leftIcon={<FaUser color="green" />}
               variant="ghost"
+              onClick={() => setMenuNumber(3)}
+              bg={currentMenu === 3 ? "gray.100" : "none"}
+              _focus={{ border: "none" }}
             >
               Хэрэглэгч
             </Button>
@@ -73,13 +82,34 @@ export function SideBar({ open, handleOpen }) {
             alignItems="center"
             w="100%"
           >
-            <Button w="90%" my="2" variant="ghost">
+            <Button
+              w="90%"
+              my="2"
+              variant="ghost"
+              onClick={() => setMenuNumber(1)}
+              bg={currentMenu === 1 ? "gray.100" : "none"}
+              _focus={{ border: "none" }}
+            >
               <FaBook color="green" />
             </Button>
-            <Button w="90%" my="2" variant="ghost">
+            <Button
+              w="90%"
+              my="2"
+              variant="ghost"
+              onClick={() => setMenuNumber(2)}
+              bbg={currentMenu === 2 ? "gray.100" : "none"}
+              _focus={{ border: "none" }}
+            >
               <FaMarker color="green" />
             </Button>
-            <Button w="90%" my="2" variant="ghost">
+            <Button
+              w="90%"
+              my="2"
+              variant="ghost"
+              onClick={() => setMenuNumber(3)}
+              bg={currentMenu === 3 ? "gray.100" : "none"}
+              _focus={{ border: "none" }}
+            >
               <FaUser color="green" />
             </Button>
           </Box>

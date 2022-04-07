@@ -1,11 +1,14 @@
 import {
   Box,
   useColorModeValue,
-  Input,
-  FormControl,
+  Text,
+  Button,
+  Editable,
+  EditableInput,
+  EditableTextarea,
+  EditablePreview,
   FormLabel,
-  InputGroup,
-  Heading,
+  Image,
 } from "@chakra-ui/react";
 import React, { useState, Component } from "react";
 import { DashboardNav } from "../components/DashboardNav";
@@ -13,9 +16,12 @@ import { SideBar } from "../components/SideBar";
 import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Dashboard() {
+  const { currentUser } = useAuth();
   const [open, setOpen] = useState(true);
+  const [menuNumber, setMenuNumber] = useState(1);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -40,10 +46,19 @@ export default function Dashboard() {
       return (
         <Editor
           editorState={editorState}
-          wrapperClassName="demo-wrapper"
-          editorClassName="demo-editor"
           onEditorStateChange={this.onEditorStateChange}
-          placeholder="Энд дарж бичнэ үү"
+          placeholder="Үндсэн нийтлэл..."
+          // toolbarHidden
+          wrapperClassName="wrapper-class"
+          editorClassName="editor-class"
+          toolbarClassName="toolbar-class"
+          toolbar={{
+            inline: { inDropdown: true },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+            link: { inDropdown: true },
+            history: { inDropdown: true },
+          }}
         />
       );
     }
@@ -53,7 +68,12 @@ export default function Dashboard() {
     <Box h="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
       <DashboardNav />
       <Box display="flex" w="100%">
-        <SideBar open={open} handleOpen={handleOpen} />
+        <SideBar
+          open={open}
+          handleOpen={handleOpen}
+          setMenuNumber={setMenuNumber}
+          currentMenu={menuNumber}
+        />
         <Box
           w="100%"
           minH="100%"
@@ -66,7 +86,49 @@ export default function Dashboard() {
             m={{ md: "10", base: "4" }}
             borderRadius="10"
           >
-            <ControlledEditor />
+            {menuNumber === 1 && (
+              <Box>
+                <Box>
+                  <Button>Зөвшөөрөгдсөн</Button>
+                  <Button ml="2">Явуулсан</Button>
+                </Box>
+              </Box>
+            )}
+            {menuNumber === 2 && <ControlledEditor />}
+            {menuNumber === 3 && (
+              <Box>
+                <Box display="flex">
+                  <Image
+                    borderRadius="full"
+                    src={currentUser?.photoURL}
+                    w="150"
+                  />
+                  <Box ml="10">
+                    <Box display="flex" alignItems="center">
+                      <Text fontWeight="semibold">Нэр:</Text>
+                      <Editable
+                        defaultValue={
+                          currentUser?.displayName
+                            ? currentUser?.displayName
+                            : "Нэр"
+                        }
+                        ml="2"
+                      >
+                        <EditablePreview />
+                        <EditableInput />
+                      </Editable>
+                    </Box>
+                    <Box display="flex" alignItems="center">
+                      <Text fontWeight="semibold">Овог:</Text>
+                      <Editable defaultValue="Овог" ml="2">
+                        <EditablePreview />
+                        <EditableInput />
+                      </Editable>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
