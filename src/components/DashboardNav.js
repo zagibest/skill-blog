@@ -30,7 +30,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 
-export function DashboardNav() {
+export function DashboardNav({ setMenuNumber, currentMenu }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
@@ -94,7 +94,7 @@ export function DashboardNav() {
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
-        // finalFocusRef={btnRef}
+        closeOnOverlayClick="true"
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -109,6 +109,10 @@ export function DashboardNav() {
               my="2"
               leftIcon={<FaBook />}
               mt="20"
+              onClick={() => {
+                setMenuNumber(1);
+                onClose();
+              }}
             >
               Бүх нийтлэлүүд
             </Button>
@@ -119,6 +123,10 @@ export function DashboardNav() {
               alignItems="center"
               my="2"
               leftIcon={<FaMarker />}
+              onClick={() => {
+                setMenuNumber(2);
+                onClose();
+              }}
             >
               Нийтлэл бичих
             </Button>
@@ -129,6 +137,10 @@ export function DashboardNav() {
               alignItems="center"
               my="2"
               leftIcon={<FaUser />}
+              onClick={() => {
+                setMenuNumber(3);
+                onClose();
+              }}
             >
               Хэрэглэгч
             </Button>

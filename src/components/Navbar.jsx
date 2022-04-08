@@ -87,7 +87,7 @@ export function Navbar() {
               _hover={{
                 bg: "green.400",
               }}
-              name="Dashboard"
+              name="Миний булан"
             />
           )}
           {currentUser && (

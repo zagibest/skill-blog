@@ -5,10 +5,10 @@ import {
   Button,
   Editable,
   EditableInput,
-  EditableTextarea,
   EditablePreview,
-  FormLabel,
-  Image,
+  Input,
+  Divider,
+  Avatar,
 } from "@chakra-ui/react";
 import React, { useState, Component } from "react";
 import { DashboardNav } from "../components/DashboardNav";
@@ -17,10 +17,21 @@ import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useAuth } from "../contexts/AuthContext";
+import {
+  FaSave,
+  FaPaperPlane,
+  FaCheck,
+  FaEye,
+  FaBook,
+  FaThumbsUp,
+  FaComment,
+  FaStar,
+} from "react-icons/fa";
+import { PostCard } from "../components/PostCard";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
 
   const handleOpen = () => {
@@ -65,8 +76,8 @@ export default function Dashboard() {
   }
 
   return (
-    <Box h="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
-      <DashboardNav />
+    <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
+      <DashboardNav setMenuNumber={setMenuNumber} currentMenu={menuNumber} />
       <Box display="flex" w="100%">
         <SideBar
           open={open}
@@ -85,24 +96,68 @@ export default function Dashboard() {
             bg="white"
             m={{ md: "10", base: "4" }}
             borderRadius="10"
+            minH={{ md: "70vh", base: "80vh" }}
+            h="100%"
           >
-            {menuNumber === 1 && (
-              <Box>
-                <Box>
-                  <Button>Зөвшөөрөгдсөн</Button>
-                  <Button ml="2">Явуулсан</Button>
-                </Box>
-              </Box>
-            )}
-            {menuNumber === 2 && <ControlledEditor />}
             {menuNumber === 3 && (
               <Box>
                 <Box display="flex">
-                  <Image
-                    borderRadius="full"
-                    src={currentUser?.photoURL}
-                    w="150"
+                  <Button leftIcon={<FaCheck />} w={{ md: "48", base: "48%" }}>
+                    Нийтлэгдсэн
+                  </Button>
+                  <Button
+                    ml="2"
+                    leftIcon={<FaPaperPlane />}
+                    w={{ md: "48", base: "48%" }}
+                  >
+                    Явуулсан
+                  </Button>
+                </Box>
+                <PostCard />
+              </Box>
+            )}
+            {menuNumber === 2 && (
+              <Box
+                w="100%"
+                display="flex"
+                flexDir="column"
+                justifyContent="space-between"
+                h="100%"
+              >
+                <Box>
+                  <Input
+                    placeholder="Гарчиг"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    fontWeight="semibold"
+                    mb="2"
                   />
+                  <ControlledEditor />
+                </Box>
+
+                <Box>
+                  <Button
+                    mr="2"
+                    colorScheme="green"
+                    leftIcon={<FaSave />}
+                    w={{ md: "inherit", base: "100%" }}
+                  >
+                    Хадгалах
+                  </Button>
+                  <Button
+                    leftIcon={<FaPaperPlane />}
+                    w={{ md: "inherit", base: "100%" }}
+                    mt={{ md: "0", base: "2" }}
+                  >
+                    Нийтлэх хүсэлт явуулах
+                  </Button>
+                </Box>
+              </Box>
+            )}
+            {menuNumber === 1 && (
+              <Box flex="1">
+                <Box display="flex">
+                  <Avatar src={currentUser?.photoURL} />
                   <Box ml="10">
                     <Box display="flex" alignItems="center">
                       <Text fontWeight="semibold">Нэр:</Text>
@@ -125,6 +180,73 @@ export default function Dashboard() {
                         <EditableInput />
                       </Editable>
                     </Box>
+                  </Box>
+                </Box>
+                <Divider py="3" />
+                <Box display="flex" flexDir={{ md: "row", base: "column" }}>
+                  <Box
+                    mt="5"
+                    fontSize="lg"
+                    fontWeight="semibold"
+                    flex="1"
+                    mr="10"
+                  >
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      // alignItems="center"
+                    >
+                      <Text mb="3" display="flex" alignItems="center">
+                        <FaCheck />
+                        <Text ml="2">Нийт нийтлэгдсэн:</Text>
+                      </Text>
+                      <Text fontSize="xl" color="green.500">
+                        20
+                      </Text>
+                    </Box>
+                    <Box display="flex" justifyContent="space-between">
+                      <Text mb="3" display="flex" alignItems="center">
+                        <FaEye />
+                        <Text ml="2">Нийт үзсэн:</Text>
+                      </Text>
+                      <Text fontSize="xl" color="green.500">
+                        20
+                      </Text>
+                    </Box>
+                    <Box display="flex" justifyContent="space-between">
+                      <Text mb="3" display="flex" alignItems="center">
+                        <FaThumbsUp />
+                        <Text ml="2">Нийт лайк:</Text>
+                      </Text>
+                      <Text fontSize="xl" color="green.500">
+                        20
+                      </Text>
+                    </Box>
+                    <Box display="flex" justifyContent="space-between">
+                      <Text display="flex" alignItems="center">
+                        <FaComment />
+                        <Text ml="2">Нийт сэтгэгдэл:</Text>
+                      </Text>
+                      <Text fontSize="xl" color="green.500">
+                        20
+                      </Text>
+                    </Box>
+                    <Divider my="4" />
+                    <Box display="flex" justifyContent="space-between">
+                      <Text mb="3" display="flex" alignItems="center">
+                        <FaStar />
+                        <Text ml="2">REPUTATION POINT:</Text>
+                      </Text>
+                      <Text fontSize="xl" color="green.500">
+                        20
+                      </Text>
+                    </Box>
+                  </Box>
+                  <Box flex="2" mt="5" ml={{ md: "10", base: "0" }}>
+                    <Text fontSize="xl" fontWeight="bold">
+                      Хамгийн их хандалттай нийтлэлүүд
+                    </Text>
+                    <PostCard />
                   </Box>
                 </Box>
               </Box>
