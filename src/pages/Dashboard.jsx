@@ -13,14 +13,10 @@ import {
 import React, { useState, Component } from "react";
 import { DashboardNav } from "../components/DashboardNav";
 import { SideBar } from "../components/SideBar";
-import { EditorState } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useAuth } from "../contexts/AuthContext";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../utils/init-firebase";
+import { CreatePost } from "../components/CreatePost";
 import {
-  FaSave,
   FaPaperPlane,
   FaCheck,
   FaEye,
@@ -35,11 +31,6 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
 
-  const [title, setTitle] = useState();
-  const [body, setBody] = useState();
-
-  console.log(title, body);
-
   // const sendData = () => {
   //   addDoc(collection(db, "blogPosts"), {
   //     title: title,
@@ -50,66 +41,6 @@ export default function Dashboard() {
   const handleOpen = () => {
     setOpen(!open);
   };
-
-  class ControlledEditor extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        editorState: EditorState.createEmpty(),
-      };
-    }
-
-    onEditorStateChange: Function = (editorState) => {
-      this.setState({
-        editorState,
-      });
-    };
-
-    render() {
-      const { editorState } = this.state;
-      return (
-        <Editor
-          editorState={editorState}
-          onEditorStateChange={this.onEditorStateChange}
-          // onChange={setBody}
-          placeholder="Үндсэн нийтлэл..."
-          // toolbarHidden
-          wrapperClassName="wrapper-class"
-          editorClassName="editor-class"
-          toolbarClassName="toolbar-class"
-          // toolbar={{
-          //   options: [
-          //     "inline",
-          //     "blockType",
-          //     "fontSize",
-          //     "list",
-          //     "textAlign",
-          //     "history",
-          //   ],
-          //   inline: { inDropdown: true },
-          //   list: { inDropdown: true },
-          //   textAlign: { inDropdown: true },
-          //   link: { inDropdown: true },
-          //   history: { inDropdown: true },
-          // }}
-          toolbar={{
-            inline: { inDropdown: true },
-            list: { inDropdown: true },
-            textAlign: { inDropdown: true },
-            link: { inDropdown: true },
-            history: { inDropdown: true },
-            blockType: {
-              inDropdown: true,
-              options: ["Normal", "Blockquote", "Code"],
-              className: undefined,
-              component: undefined,
-              dropdownClassName: undefined,
-            },
-          }}
-        />
-      );
-    }
-  }
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
@@ -152,45 +83,7 @@ export default function Dashboard() {
                 <PostCard />
               </Box>
             )}
-            {menuNumber === 2 && (
-              <Box
-                w="100%"
-                display="flex"
-                flexDir="column"
-                justifyContent="space-between"
-                h="100%"
-              >
-                <Box>
-                  <Input
-                    placeholder="Гарчиг"
-                    variant="unstyled"
-                    fontSize="2xl"
-                    fontWeight="semibold"
-                    mb="2"
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                  <ControlledEditor />
-                </Box>
-
-                <Box>
-                  <Button
-                    mr="2"
-                    colorScheme="green"
-                    leftIcon={<FaSave />}
-                    w={{ md: "inherit", base: "100%" }}
-                  >
-                    Хадгалах
-                  </Button>
-                  <Button
-                    leftIcon={<FaPaperPlane />}
-                    w={{ md: "inherit", base: "100%" }}
-                    mt={{ md: "0", base: "2" }}
-                  >
-                    Нийтлэх хүсэлт явуулах
-                  </Button>
-                </Box>
-              </Box>
-            )}
+            {menuNumber === 2 && <CreatePost />}
             {menuNumber === 1 && (
               <Box flex="1">
                 <Box display="flex">

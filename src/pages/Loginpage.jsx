@@ -114,7 +114,9 @@ export default function Loginpage() {
             {/* <PasswordField /> */}
             <Button
               type="submit"
-              colorScheme="green"
+              bg="primary"
+              color="white"
+              _hover={{ bg: "p9" }}
               size="lg"
               fontSize="md"
               isLoading={isSubmitting}
@@ -135,7 +137,9 @@ export default function Loginpage() {
         <Button
           variant="outline"
           isFullWidth
-          colorScheme="green"
+          color="p9"
+          borderColor="p9"
+          _hover={{ bg: "p1" }}
           leftIcon={<FaGoogle />}
           onClick={() =>
             signInWithGoogle()

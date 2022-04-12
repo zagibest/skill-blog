@@ -68,7 +68,14 @@ export default function ResetPasswordPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormControl>
-            <Button type="submit" colorScheme="green" size="lg" fontSize="md">
+            <Button
+              type="submit"
+              bg="primary"
+              color="white"
+              _hover={{ bg: "p9" }}
+              size="lg"
+              fontSize="md"
+            >
               Шинэчлэх
             </Button>
           </Stack>

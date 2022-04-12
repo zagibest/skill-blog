@@ -61,24 +61,24 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
         >
           <FaEquals />
         </Button>
-        <Link
-          href="/"
+        <Navlink
+          to="/"
           _hover={{ textDecor: "none" }}
           ml={{ md: "10", base: "0" }}
           display={{ md: "block", base: "none" }}
-        >
-          <Button variant="unstyled">Skill Share Blog</Button>
-        </Link>
-        <Link
-          href="/"
+          name={<Button variant="unstyled">Skill Share Blog</Button>}
+        ></Navlink>
+        <Navlink
+          to="/"
           _hover={{ textDecor: "none", color: "green.500" }}
           ml={{ md: "10", base: "4" }}
           display={{ md: "none", base: "block" }}
-        >
-          <Button variant="unstyled" fontWeight="black" fontSize="lg">
-            SSB
-          </Button>
-        </Link>
+          name={
+            <Button variant="unstyled" fontWeight="black" fontSize="lg">
+              SSB
+            </Button>
+          }
+        ></Navlink>
 
         <Navlink
           mr="4"

@@ -12,7 +12,7 @@ export default function Navlink({ to, name, ...rest }) {
       <Button
         variant={isActive ? "ghost" : "ghost"}
         colorScheme={isActive ? "white" : ""}
-        bg={isActive ? "green.400" : ""}
+        bg={isActive ? "p9" : ""}
         {...rest}
       >
         {name}

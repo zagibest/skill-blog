@@ -64,7 +64,14 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </FormControl>
-            <Button type="submit" colorScheme="green" size="lg" fontSize="md">
+            <Button
+              type="submit"
+              bg="primary"
+              color="white"
+              _hover={{ bg: "p9" }}
+              size="lg"
+              fontSize="md"
+            >
               Илгээх
             </Button>
           </Stack>

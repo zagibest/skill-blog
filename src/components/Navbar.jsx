@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import React from "react";
-import { FaBars, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaSignOutAlt, FaPlusCircle } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 import { SearchBar } from "./SearchBar";
@@ -21,9 +21,10 @@ export function Navbar() {
 
   return (
     <Box
-      mb={4}
       h="16"
-      bg={useColorModeValue("green.500", "gray.600")}
+      // bg={useColorModeValue("green.500", "gray.600")}
+      // bg={color}
+      bg="primary"
       w="100%"
       color="whiteAlpha.900"
       fontFamily="heading"
@@ -34,22 +35,26 @@ export function Navbar() {
         alignItems="center"
         h="100%"
       >
-        <Link
-          href="/"
+        <Navlink
+          to="/"
           _hover={{ textDecor: "none" }}
-          ml={{ md: "10", base: "4" }}
+          ml={{ md: "10", base: "0" }}
           display={{ md: "block", base: "none" }}
-        >
-          <Button variant="unstyled">Skill Share Blog</Button>
-        </Link>
-        <Link
-          href="/"
+          bg="primary"
+          name={<Button variant="unstyled">Skill Share Blog</Button>}
+        ></Navlink>
+        <Navlink
+          to="/"
           _hover={{ textDecor: "none", color: "green.500" }}
-          ml={{ md: "10", base: "4" }}
+          ml={{ md: "10", base: "2" }}
           display={{ md: "none", base: "block" }}
-        >
-          <Button variant="outline">SSB</Button>
-        </Link>
+          variant="outline"
+          name={
+            <Button variant="unstyled" fontWeight="black" fontSize="lg">
+              SSB
+            </Button>
+          }
+        ></Navlink>
         <SearchBar />
 
         <Box display={{ md: "block", base: "none" }} mr="10">
@@ -58,7 +63,7 @@ export function Navbar() {
               to="/login"
               name="Нэвтрэх"
               _hover={{
-                bg: "green.400",
+                bg: "p9",
               }}
             />
           )}
@@ -70,19 +75,28 @@ export function Navbar() {
               color={"white"}
               variant="outline"
               _hover={{
-                bg: "green.400",
+                bg: "p9",
               }}
               _focus={{
                 bg: "green.500",
               }}
             />
           )}
-
           {currentUser && (
             <Navlink
               to="/dashboard"
               _hover={{
-                bg: "green.400",
+                bg: "p9",
+              }}
+              fontSize="18px"
+              name={<FaPlusCircle />}
+            />
+          )}
+          {currentUser && (
+            <Navlink
+              to="/dashboard"
+              _hover={{
+                bg: "p9",
               }}
               name="Миний булан"
             />
@@ -90,10 +104,11 @@ export function Navbar() {
           {currentUser && (
             <Navlink
               _hover={{
-                bg: "green.400",
+                bg: "p9",
               }}
               to="/logout"
-              rightIcon={<FaSignOutAlt />}
+              name={<FaSignOutAlt />}
+              fontSize="18px"
               onClick={async (e) => {
                 e.preventDefault();
                 await logout();
@@ -107,8 +122,8 @@ export function Navbar() {
             variant="outline"
             display={{ md: "none", base: "block" }}
             mr="4"
-            _focus={{ bg: "green.400" }}
-            _hover={{ bg: "green.400" }}
+            _focus={{ bg: "primary" }}
+            _hover={{ bg: "p9" }}
           >
             <FaBars />
           </MenuButton>
@@ -116,10 +131,10 @@ export function Navbar() {
             {!currentUser && (
               <>
                 <MenuItem>
-                  <Navlink to="/login" name="Нэвтрэх" />
+                  <Navlink to="/login" name="Нэвтрэх" variant="outline" />
                 </MenuItem>
                 <MenuItem>
-                  <Navlink to="/register" name="Бүртгүүлэх" />
+                  <Navlink to="/register" name="Бүртгүүлэх" variant="outline" />
                 </MenuItem>
               </>
             )}
@@ -127,12 +142,18 @@ export function Navbar() {
             {currentUser && (
               <>
                 <MenuItem>
-                  <Navlink to="/dashboard" name="Dashboard" />
+                  <Navlink
+                    to="/dashboard"
+                    name="Dashboard"
+                    w="100%"
+                    variant="outline"
+                  />
                 </MenuItem>
                 <MenuItem>
                   <Navlink
+                    variant="outline"
                     to="/logout"
-                    rightIcon={<FaSignOutAlt />}
+                    name={<FaSignOutAlt />}
                     onClick={async (e) => {
                       e.preventDefault();
                       await logout();
