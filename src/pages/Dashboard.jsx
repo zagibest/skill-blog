@@ -130,7 +130,7 @@ export default function Dashboard() {
                         <FaCheck />
                         <Text ml="2">Нийт нийтлэгдсэн:</Text>
                       </Text>
-                      <Text fontSize="xl" color="green.500">
+                      <Text fontSize="xl" color="primary">
                         20
                       </Text>
                     </Box>
@@ -139,7 +139,7 @@ export default function Dashboard() {
                         <FaEye />
                         <Text ml="2">Нийт үзсэн:</Text>
                       </Text>
-                      <Text fontSize="xl" color="green.500">
+                      <Text fontSize="xl" color="primary">
                         20
                       </Text>
                     </Box>
@@ -148,7 +148,7 @@ export default function Dashboard() {
                         <FaThumbsUp />
                         <Text ml="2">Нийт лайк:</Text>
                       </Text>
-                      <Text fontSize="xl" color="green.500">
+                      <Text fontSize="xl" color="primary">
                         20
                       </Text>
                     </Box>
@@ -157,7 +157,7 @@ export default function Dashboard() {
                         <FaComment />
                         <Text ml="2">Нийт сэтгэгдэл:</Text>
                       </Text>
-                      <Text fontSize="xl" color="green.500">
+                      <Text fontSize="xl" color="primary">
                         20
                       </Text>
                     </Box>
@@ -167,7 +167,7 @@ export default function Dashboard() {
                         <FaStar />
                         <Text ml="2">REPUTATION POINT:</Text>
                       </Text>
-                      <Text fontSize="xl" color="green.500">
+                      <Text fontSize="xl" color="primary">
                         20
                       </Text>
                     </Box>

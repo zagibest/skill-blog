@@ -39,7 +39,8 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
   return (
     <Box
       h="16"
-      bg={useColorModeValue("green.500", "gray.600")}
+      // bg={useColorModeValue("green.500", "gray.600")}
+      bg="primary"
       // bg="#02054B"
       w="100%"
       zIndex="10"
@@ -70,7 +71,7 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
         ></Navlink>
         <Navlink
           to="/"
-          _hover={{ textDecor: "none", color: "green.500" }}
+          _hover={{ textDecor: "none", color: "p9" }}
           ml={{ md: "10", base: "4" }}
           display={{ md: "none", base: "block" }}
           name={

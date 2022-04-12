@@ -30,7 +30,7 @@ export default function Homepage() {
         textAlign="center"
       >
         <Text
-          fontSize={{ md: "6xl", base: "3xl" }}
+          fontSize={{ md: "6xl", base: "4xl" }}
           color="whiteAlpha.900"
           fontFamily="heading"
           fontWeight="bold"
@@ -45,7 +45,7 @@ export default function Homepage() {
           pb="12"
           pt="2"
         >
-          Lorem ipsum lorem test ipsumn lorem
+          Өөрийн ур чадвараа нийтлэлээр дамжуулан бусадтай хуваалцаарай
         </Text>
         <Box>
           <Button fontFamily="heading" rightIcon={<FaPlus />}>

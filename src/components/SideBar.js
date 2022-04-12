@@ -37,7 +37,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               alignItems="center"
               my="2"
               leftIcon={
-                <FaUser color={currentMenu === 1 ? "green" : "black"} />
+                <FaUser color={currentMenu === 1 ? "#1f46cf" : "black"} />
               }
               variant="ghost"
               bg={currentMenu === 1 ? "gray.100" : "none"}
@@ -53,7 +53,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               alignItems="center"
               my="2"
               leftIcon={
-                <FaMarker color={currentMenu === 2 ? "green" : "black"} />
+                <FaMarker color={currentMenu === 2 ? "#1f46cf" : "black"} />
               }
               variant="ghost"
               bg={currentMenu === 2 ? "gray.100" : "none"}
@@ -69,7 +69,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               alignItems="center"
               my="2"
               leftIcon={
-                <FaBook color={currentMenu === 3 ? "green" : "black"} />
+                <FaBook color={currentMenu === 3 ? "#1f46cf" : "black"} />
               }
               variant="ghost"
               onClick={() => setMenuNumber(3)}
@@ -96,7 +96,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               bg={currentMenu === 1 ? "gray.100" : "none"}
               _focus={{ border: "none" }}
             >
-              <FaUser color={currentMenu === 1 ? "green" : "black"} />
+              <FaUser color={currentMenu === 1 ? "#1f46cf" : "black"} />
             </Button>
             <Button
               w="90%"
@@ -106,7 +106,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               bg={currentMenu === 2 ? "gray.100" : "none"}
               _focus={{ border: "none" }}
             >
-              <FaMarker color={currentMenu === 2 ? "green" : "black"} />
+              <FaMarker color={currentMenu === 2 ? "#1f46cf" : "black"} />
             </Button>
             <Button
               w="90%"
@@ -116,7 +116,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               bg={currentMenu === 3 ? "gray.100" : "none"}
               _focus={{ border: "none" }}
             >
-              <FaBook color={currentMenu === 3 ? "green" : "black"} />
+              <FaBook color={currentMenu === 3 ? "#1f46cf" : "black"} />
             </Button>
           </Box>
         )}
