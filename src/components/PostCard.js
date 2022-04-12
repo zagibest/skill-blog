@@ -16,7 +16,7 @@ export const PostCard = () => {
         <Badge ml="2">Хүний хөгжил</Badge>
       </Box>
 
-      <Text fontWeight="bold" fontSize="2xl" py="2">
+      <Text fontWeight="bold" fontSize="2xl" py="2" fontFamily="heading">
         Хэрхэн бизнес эхлэх вэ?
       </Text>
       <Text>

@@ -26,6 +26,7 @@ export function Navbar() {
       bg={useColorModeValue("green.500", "gray.600")}
       w="100%"
       color="whiteAlpha.900"
+      fontFamily="heading"
     >
       <Box
         display="flex"

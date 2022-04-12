@@ -45,6 +45,7 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
       zIndex="10"
       color="whiteAlpha.900"
       position="fixed"
+      fontFamily="heading"
     >
       <Box
         display="flex"
