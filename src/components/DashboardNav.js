@@ -42,7 +42,7 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
       bg={useColorModeValue("green.500", "gray.600")}
       // bg="#02054B"
       w="100%"
-      zIndex="1"
+      zIndex="10"
       color="whiteAlpha.900"
       position="fixed"
     >

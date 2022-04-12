@@ -17,12 +17,13 @@ import { EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useAuth } from "../contexts/AuthContext";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../utils/init-firebase";
 import {
   FaSave,
   FaPaperPlane,
   FaCheck,
   FaEye,
-  FaBook,
   FaThumbsUp,
   FaComment,
   FaStar,
@@ -33,6 +34,18 @@ export default function Dashboard() {
   const { currentUser } = useAuth();
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
+
+  const [title, setTitle] = useState();
+  const [body, setBody] = useState();
+
+  console.log(title, body);
+
+  // const sendData = () => {
+  //   addDoc(collection(db, "blogPosts"), {
+  //     title: title,
+  //     body: body,
+  //   });
+  // };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -58,17 +71,40 @@ export default function Dashboard() {
         <Editor
           editorState={editorState}
           onEditorStateChange={this.onEditorStateChange}
+          // onChange={setBody}
           placeholder="Үндсэн нийтлэл..."
           // toolbarHidden
           wrapperClassName="wrapper-class"
           editorClassName="editor-class"
           toolbarClassName="toolbar-class"
+          // toolbar={{
+          //   options: [
+          //     "inline",
+          //     "blockType",
+          //     "fontSize",
+          //     "list",
+          //     "textAlign",
+          //     "history",
+          //   ],
+          //   inline: { inDropdown: true },
+          //   list: { inDropdown: true },
+          //   textAlign: { inDropdown: true },
+          //   link: { inDropdown: true },
+          //   history: { inDropdown: true },
+          // }}
           toolbar={{
             inline: { inDropdown: true },
             list: { inDropdown: true },
             textAlign: { inDropdown: true },
             link: { inDropdown: true },
             history: { inDropdown: true },
+            blockType: {
+              inDropdown: true,
+              options: ["Normal", "Blockquote", "Code"],
+              className: undefined,
+              component: undefined,
+              dropdownClassName: undefined,
+            },
           }}
         />
       );
@@ -131,6 +167,7 @@ export default function Dashboard() {
                     fontSize="2xl"
                     fontWeight="semibold"
                     mb="2"
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                   <ControlledEditor />
                 </Box>

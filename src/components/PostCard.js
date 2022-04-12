@@ -1,15 +1,4 @@
-import {
-  Box,
-  Text,
-  Link,
-  Badge,
-  Grid,
-  Avatar,
-  Button,
-  LinkBox,
-  LinkOverlay,
-  Divider,
-} from "@chakra-ui/react";
+import { Box, Text, Badge, Avatar, LinkBox, Divider } from "@chakra-ui/react";
 
 export const PostCard = () => {
   return (
@@ -18,7 +7,7 @@ export const PostCard = () => {
       boxShadow="base"
       p="4"
       borderRadius="10"
-      w={{ md: "xl", base: "100%" }}
+      w={{ lg: "xl", md: "lg", base: "100%" }}
       mt="5"
       bg="white"
     >

@@ -1,10 +1,6 @@
 import {
   Box,
   Button,
-  // HStack,
-  // IconButton,
-  // Spacer,
-  // useColorMode,
   useColorModeValue,
   Link,
   Menu,
