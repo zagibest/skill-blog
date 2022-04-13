@@ -29,7 +29,9 @@ export const Footer = () => (
       }}
     >
       <Stack justify="space-between" direction="row" align="center">
-        <Text>SkillEd</Text>
+        <Text fontFamily="heading" fontWeight="semibold" fontSize="xl">
+          SkillEd
+        </Text>
         <ButtonGroup variant="ghost">
           <IconButton
             as="a"
