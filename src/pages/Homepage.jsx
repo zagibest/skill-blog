@@ -7,6 +7,7 @@ import { PostCard } from "../components/PostCard";
 import { UserProfile } from "../components/UserProfile";
 import { Navbar } from "../components/Navbar";
 import { FaPlus, FaChevronDown } from "react-icons/fa";
+import { Footer } from "../components/Footer";
 
 export default function Homepage() {
   return (
@@ -96,6 +97,9 @@ export default function Homepage() {
             <UserProfile />
           </Box>
         </Box>
+      </Box>
+      <Box w="100%">
+        <Footer />
       </Box>
     </Box>
   );

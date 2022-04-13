@@ -41,7 +41,7 @@ export function Navbar() {
           ml={{ md: "10", base: "0" }}
           display={{ md: "block", base: "none" }}
           bg="primary"
-          name={<Button variant="unstyled">Skill Share Blog</Button>}
+          name={<Button variant="unstyled">SkillEd</Button>}
         ></Navlink>
         <Navlink
           to="/"
@@ -49,9 +49,10 @@ export function Navbar() {
           ml={{ md: "10", base: "2" }}
           display={{ md: "none", base: "block" }}
           variant="outline"
+          bg="primary"
           name={
             <Button variant="unstyled" fontWeight="black" fontSize="lg">
-              SSB
+              SE
             </Button>
           }
         ></Navlink>

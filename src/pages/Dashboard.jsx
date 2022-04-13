@@ -167,13 +167,17 @@ export default function Dashboard() {
                         <FaStar />
                         <Text ml="2">REPUTATION POINT:</Text>
                       </Text>
-                      <Text fontSize="xl" color="primary">
+                      <Text fontSize="xl" color="primary" fontWeight="bold">
                         20
                       </Text>
                     </Box>
                   </Box>
                   <Box flex="2" mt="5" ml={{ md: "10", base: "0" }}>
-                    <Text fontSize="xl" fontWeight="bold">
+                    <Text
+                      fontSize="xl"
+                      fontWeight="semibold"
+                      fontFamily="heading"
+                    >
                       Хамгийн их хандалттай нийтлэлүүд
                     </Text>
                     <PostCard />
