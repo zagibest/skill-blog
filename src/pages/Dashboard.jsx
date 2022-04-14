@@ -9,11 +9,12 @@ import {
   Input,
   Divider,
   Avatar,
+  toast,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState, Component } from "react";
 import { DashboardNav } from "../components/DashboardNav";
 import { SideBar } from "../components/SideBar";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useAuth } from "../contexts/AuthContext";
 import { CreatePost } from "../components/CreatePost";
 import {
@@ -25,21 +26,45 @@ import {
   FaStar,
 } from "react-icons/fa";
 import { PostCard } from "../components/PostCard";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../utils/init-firebase";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
-
-  // const sendData = () => {
-  //   addDoc(collection(db, "blogPosts"), {
-  //     title: title,
-  //     body: body,
-  //   });
-  // };
+  const toast = useToast();
 
   const handleOpen = () => {
     setOpen(!open);
+  };
+
+  const showToast = () => {
+    toast({
+      title: "Амжилттай",
+      description: "Нийтлэл илгээгдлээ.",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      variant: "left-accent",
+      position: "top-right",
+    });
+  };
+
+  const sendData = (title, text) => {
+    try {
+      addDoc(collection(db, "blogPost"), {
+        title: title,
+        body: text,
+        authorName: currentUser?.displayName,
+        dateCreated: serverTimestamp(),
+        approved: false,
+      });
+      showToast();
+      setMenuNumber(3);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -83,7 +108,7 @@ export default function Dashboard() {
                 <PostCard />
               </Box>
             )}
-            {menuNumber === 2 && <CreatePost />}
+            {menuNumber === 2 && <CreatePost command={sendData} />}
             {menuNumber === 1 && (
               <Box flex="1">
                 <Box display="flex">
