@@ -1,24 +1,20 @@
 import {
-  Box,
-  Text,
-  Badge,
-  Avatar,
-  LinkBox,
-  Divider,
-  OrderedList,
-  UnorderedList,
-  ListItem,
-  chakra,
+  Container,
   Heading,
-  Button,
+  chakra,
+  ListItem,
+  UnorderedList,
+  OrderedList,
 } from "@chakra-ui/react";
 import React, { useCallback, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
+import { Layout } from "../components/Layout";
+import { useAuth } from "../contexts/AuthContext";
 
-export const PostCard = (props) => {
+export default function Post() {
+  const { blogData } = useAuth();
   const editor = useMemo(() => withReact(createEditor()), []);
-  // const existingValue = JSON.parse(props.body);
 
   const BlockquoteStyle = {
     margin: "1.5em 10px",
@@ -92,47 +88,29 @@ export const PostCard = (props) => {
     return <span {...attributes}>{children}</span>;
   };
 
-  return (
-    <LinkBox
-      _hover={{ textDecor: "none" }}
-      boxShadow="base"
-      p="4"
-      borderRadius="10"
-      w={{ lg: "xl", md: "lg", base: "100%" }}
-      mt="5"
-      bg="white"
-    >
-      <Box py="1" spacing="2">
-        <Badge>Санхүү</Badge>
-        <Badge ml="2">Хүний хөгжил</Badge>
-      </Box>
-
-      <Text fontWeight="bold" fontSize="2xl" py="2" fontFamily="heading">
-        {props.title}
-      </Text>
-
-      <Box maxH="100" overflow="hidden">
-        <Slate value={props.body} editor={editor}>
+  const Porsts = blogData?.map((e) => {
+    // const existingValue = JSON.parse(e.body);
+    return (
+      <>
+        <Heading as="h2" mt="6" mb="4">
+          {e.title}
+        </Heading>
+        <Slate value={e.body} editor={editor}>
           <Editable
             readOnly
             renderElement={renderElement}
             renderLeaf={renderLeaf}
           />
         </Slate>
-      </Box>
-      <Button variant="unstyled" color="primary">
-        цааш унших...
-      </Button>
-      <Divider my="3" />
-      <Box display="flex" justifyContent="space-between" alignItems="flex-end">
-        <Box display="flex" alignItems="center">
-          <Avatar h="10" w="10" mr="2" />
-          <Text mr="2">{props.authorName}</Text>
-        </Box>
-        <Box>
-          <Text>{props.date}</Text>
-        </Box>
-      </Box>
-    </LinkBox>
+      </>
+    );
+  });
+
+  return (
+    <Layout>
+      <Container maxW="container.lg" py={4}>
+        {Porsts}
+      </Container>
+    </Layout>
   );
-};
+}

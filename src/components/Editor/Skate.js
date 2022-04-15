@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import isHotkey from "is-hotkey";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor } from "slate";
@@ -14,10 +20,10 @@ import {
   MdLooksOne,
   MdLooksTwo,
 } from "react-icons/md";
+import { FaSave, FaPaperPlane } from "react-icons/fa";
 
 // import { Button, Icon, Toolbar } from "./components";
 import {
-  Button,
   HStack,
   Input,
   chakra,
@@ -26,6 +32,8 @@ import {
   OrderedList,
   UnorderedList,
   Heading,
+  Box,
+  Button,
 } from "@chakra-ui/react";
 
 const HOTKEYS = {
@@ -37,56 +45,97 @@ const HOTKEYS = {
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const SlateJSTextEditor = () => {
+const SlateJSTextEditor = (props) => {
   const [value, setValue] = useState(initialValue);
+  const [title, setTitle] = useState("");
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
-    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
-      <HStack
-        borderWidth={"0 0 1px 0"}
-        padding={"10px 5px"}
-        spacing={"5px"}
-        wrap={"wrap"}
-      >
-        <MarkButton2 format="bold" icon={<MdFormatBold />} />
-        <MarkButton2 format="italic" icon={<MdFormatItalic />} />
-        <MarkButton2 format="underline" icon={<MdFormatUnderlined />} />
-        <MarkButton2 format="code" icon={<MdCode />} />
-        <BlockButton2 format="heading-one" icon={<MdLooksOne />} />
-        <BlockButton2 format="heading-two" icon={<MdLooksTwo />} />
-        <BlockButton2 format="block-quote" icon={<MdFormatQuote />} />
-        <BlockButton2 format="numbered-list" icon={<MdFormatListNumbered />} />
-        <BlockButton2 format="bulleted-list" icon={<MdFormatListBulleted />} />
-      </HStack>
-      <Input
-        placeholder="Гарчиг"
-        variant="unstyled"
-        fontSize="2xl"
-        fontWeight="semibold"
-        mb="2"
-        fontFamily="heading"
-      />
-      <Editable
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        placeholder="Үндсэн нийтлэл"
-        style={{ minHeight: "150px", resize: "vertical", overflow: "auto" }}
-        spellCheck
-        autoFocus
-        onKeyDown={(event) => {
-          for (const hotkey in HOTKEYS) {
-            if (isHotkey(hotkey, event)) {
-              event.preventDefault();
-              const mark = HOTKEYS[hotkey];
-              toggleMark(editor, mark);
-            }
-          }
-        }}
-      />
-    </Slate>
+    <Box
+      w="100%"
+      display="flex"
+      flexDir="column"
+      justifyContent="space-between"
+      h="100%"
+    >
+      <Box>
+        <Slate
+          editor={editor}
+          value={value}
+          onChange={(value) => setValue(value)}
+        >
+          <HStack
+            borderWidth={"0 0 1px 0"}
+            padding={"10px 5px"}
+            spacing={"5px"}
+            wrap={"wrap"}
+          >
+            <MarkButton2 format="bold" icon={<MdFormatBold />} />
+            <MarkButton2 format="italic" icon={<MdFormatItalic />} />
+            <MarkButton2 format="underline" icon={<MdFormatUnderlined />} />
+            <MarkButton2 format="code" icon={<MdCode />} />
+            <BlockButton2 format="heading-one" icon={<MdLooksOne />} />
+            <BlockButton2 format="heading-two" icon={<MdLooksTwo />} />
+            <BlockButton2 format="block-quote" icon={<MdFormatQuote />} />
+            <BlockButton2
+              format="numbered-list"
+              icon={<MdFormatListNumbered />}
+            />
+            <BlockButton2
+              format="bulleted-list"
+              icon={<MdFormatListBulleted />}
+            />
+          </HStack>
+          <Input
+            placeholder="Гарчиг"
+            variant="unstyled"
+            fontSize="2xl"
+            fontWeight="semibold"
+            mb="3"
+            fontFamily="heading"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Editable
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            placeholder="Үндсэн нийтлэл"
+            style={{ minHeight: "150px", resize: "vertical", overflow: "auto" }}
+            spellCheck
+            autoFocus
+            onKeyDown={(event) => {
+              for (const hotkey in HOTKEYS) {
+                if (isHotkey(hotkey, event)) {
+                  event.preventDefault();
+                  const mark = HOTKEYS[hotkey];
+                  toggleMark(editor, mark);
+                }
+              }
+            }}
+          />
+        </Slate>
+      </Box>
+
+      <Box>
+        <Button
+          mr="2"
+          colorScheme="green"
+          leftIcon={<FaSave />}
+          w={{ md: "inherit", base: "100%" }}
+        >
+          Хадгалах
+        </Button>
+        <Button
+          leftIcon={<FaPaperPlane />}
+          w={{ md: "inherit", base: "100%" }}
+          mt={{ md: "0", base: "2" }}
+          onClick={() => props.command(title, value)}
+        >
+          Нийтлэх хүсэлт явуулах
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

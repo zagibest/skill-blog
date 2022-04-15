@@ -6,17 +6,15 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-  Input,
   Divider,
   Avatar,
-  toast,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState, Component } from "react";
+import React, { useState, useEffect } from "react";
 import { DashboardNav } from "../components/DashboardNav";
 import { SideBar } from "../components/SideBar";
 import { useAuth } from "../contexts/AuthContext";
-import { CreatePost } from "../components/CreatePost";
+import SlateJSTextEditor from "../components/Editor/Skate";
 import {
   FaPaperPlane,
   FaCheck,
@@ -51,12 +49,15 @@ export default function Dashboard() {
     });
   };
 
-  const sendData = (title, text) => {
+  const sendData = (title, value) => {
     try {
       addDoc(collection(db, "blogPost"), {
         title: title,
-        body: text,
-        authorName: currentUser?.displayName,
+        body: value,
+        authorName: currentUser?.displayName
+          ? currentUser.displayName
+          : currentUser.email,
+        authorPro: currentUser?.photoURL,
         dateCreated: serverTimestamp(),
         approved: false,
       });
@@ -105,10 +106,9 @@ export default function Dashboard() {
                     Явуулсан
                   </Button>
                 </Box>
-                <PostCard />
               </Box>
             )}
-            {menuNumber === 2 && <CreatePost command={sendData} />}
+            {menuNumber === 2 && <SlateJSTextEditor command={sendData} />}
             {menuNumber === 1 && (
               <Box flex="1">
                 <Box display="flex">
@@ -205,7 +205,6 @@ export default function Dashboard() {
                     >
                       Хамгийн их хандалттай нийтлэлүүд
                     </Text>
-                    <PostCard />
                   </Box>
                 </Box>
               </Box>

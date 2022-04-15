@@ -1,15 +1,39 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Layout } from "../components/Layout";
-import { useAuth } from "../contexts/AuthContext";
 import { PostCard } from "../components/PostCard";
 import { UserProfile } from "../components/UserProfile";
 import { Navbar } from "../components/Navbar";
 import { FaPlus, FaChevronDown } from "react-icons/fa";
 import { Footer } from "../components/Footer";
+// import { Data } from "../contexts/Data";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Homepage() {
+  const { blogData } = useAuth();
+
+  const posts = blogData?.map((post) => {
+    const year = new Date(post.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(post.dateCreated?.seconds * 1000)
+      .getMonth()
+      .toString();
+    const days = new Date(post.dateCreated?.seconds * 1000)
+      .getDate()
+      .toString();
+
+    month++;
+    return (
+      <PostCard
+        key={post.id}
+        title={post.title}
+        authorName={post.authorName}
+        date={year + "/" + month + "/" + days}
+        body={post.body}
+      />
+    );
+  });
+
   return (
     <Box
       bg="gray.50"
@@ -67,11 +91,7 @@ export default function Homepage() {
           Санал болгох
         </Text>
         <Box display="flex" flexDir={{ md: "row", base: "column" }}>
-          <Box>
-            <PostCard />
-            <PostCard />
-            <PostCard />
-          </Box>
+          <Box>{posts}</Box>
           <Box
             ml={{ md: "5", base: "0" }}
             _hover={{ textDecor: "none" }}
