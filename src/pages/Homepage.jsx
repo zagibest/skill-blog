@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, Image } from "@chakra-ui/react";
 import React from "react";
 import { PostCard } from "../components/PostCard";
 import { UserProfile } from "../components/UserProfile";
@@ -43,23 +43,40 @@ export default function Homepage() {
       alignItems="center"
       flexDir="column"
     >
-      <Navbar />
+      <Navbar bg="transparent" />
       <Box
         w="100%"
-        h="lg"
-        bg="primary"
+        h="xl"
+        // bg={{ md: "transparent", base: "primary" }}
+        ng="transparent"
+        // bgImg="./images/test7.svg"
         display="flex"
         flexDir="column"
         alignItems="center"
         justifyContent="center"
         textAlign="center"
+        px="3"
+        zIndex="2"
       >
+        <Image
+          src="./images/final.svg"
+          position="absolute"
+          top="0"
+          right="0"
+          // w="110%"
+          objectFit="cover"
+          // h="100%"
+          zIndex="-1"
+          // display={{ md: "block", base: "none" }}
+          h="xl"
+        />
         <Text
           fontSize={{ md: "6xl", base: "4xl" }}
           color="whiteAlpha.900"
           fontFamily="heading"
           fontWeight="bold"
           mt="-24"
+          as="h1"
         >
           Ур чадвараа нийтлэх платформ
         </Text>
@@ -81,7 +98,7 @@ export default function Homepage() {
           </Button>
         </Box>
       </Box>
-      <Box maxW="container.lg" px="4">
+      <Box maxW={"container.lg"} w="90%">
         <Text
           fontWeight="black"
           fontSize={{ md: "4xl", base: "3xl" }}

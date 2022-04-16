@@ -14,7 +14,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 import { SearchBar } from "./SearchBar";
 
-export function Navbar() {
+export function Navbar({ bg }) {
   // const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
   const { logout, currentUser } = useAuth();
@@ -24,10 +24,11 @@ export function Navbar() {
       h="16"
       // bg={useColorModeValue("green.500", "gray.600")}
       // bg={color}
-      bg="primary"
+      bg={bg}
       w="100%"
       color="whiteAlpha.900"
       fontFamily="heading"
+      zIndex="3"
     >
       <Box
         display="flex"
