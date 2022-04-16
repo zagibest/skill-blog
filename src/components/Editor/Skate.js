@@ -119,14 +119,7 @@ const SlateJSTextEditor = (props) => {
 
       <Box>
         <Button
-          mr="2"
           colorScheme="green"
-          leftIcon={<FaSave />}
-          w={{ md: "inherit", base: "100%" }}
-        >
-          Хадгалах
-        </Button>
-        <Button
           leftIcon={<FaPaperPlane />}
           w={{ md: "inherit", base: "100%" }}
           mt={{ md: "0", base: "2" }}

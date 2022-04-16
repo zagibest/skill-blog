@@ -28,10 +28,67 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
 export default function Dashboard() {
+  const { blogData } = useAuth();
+  const [approvedBut, setApprovedBut] = useState(true);
   const { currentUser } = useAuth();
+
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
   const toast = useToast();
+
+  const notApproved = blogData?.map((post) => {
+    const year = new Date(post.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(post.dateCreated?.seconds * 1000)
+      .getMonth()
+      .toString();
+    const days = new Date(post.dateCreated?.seconds * 1000)
+      .getDate()
+      .toString();
+
+    month++;
+    if (post.approved === false && post.authorId === currentUser?.id) {
+      return (
+        <PostCard
+          key={post.id}
+          title={post.title}
+          authorName={post.authorName}
+          date={year + "/" + month + "/" + days}
+          body={post.body}
+        />
+      );
+    }
+  });
+
+  const Approved = blogData?.map((post) => {
+    const year = new Date(post.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(post.dateCreated?.seconds * 1000)
+      .getMonth()
+      .toString();
+    const days = new Date(post.dateCreated?.seconds * 1000)
+      .getDate()
+      .toString();
+
+    month++;
+    if (post.approved === true && post.authorId === currentUser?.id) {
+      return (
+        <PostCard
+          key={post.id}
+          title={post.title}
+          authorName={post.authorName}
+          date={year + "/" + month + "/" + days}
+          body={post.body}
+        />
+      );
+    }
+  });
+
+  const setToTwo = () => {
+    setMenuNumber(2);
+  };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -95,17 +152,25 @@ export default function Dashboard() {
             {menuNumber === 3 && (
               <Box>
                 <Box display="flex">
-                  <Button leftIcon={<FaCheck />} w={{ md: "48", base: "48%" }}>
-                    Нийтлэгдсэн
-                  </Button>
                   <Button
-                    ml="2"
                     leftIcon={<FaPaperPlane />}
                     w={{ md: "48", base: "48%" }}
+                    bg={approvedBut ? "gray.200" : "transparent"}
+                    onClick={() => setApprovedBut(!approvedBut)}
                   >
                     Явуулсан
                   </Button>
+                  <Button
+                    ml="2"
+                    leftIcon={<FaCheck />}
+                    w={{ md: "48", base: "48%" }}
+                    onClick={() => setApprovedBut(!approvedBut)}
+                    bg={approvedBut ? "transparent" : "gray.200"}
+                  >
+                    Нийтлэгдсэн
+                  </Button>
                 </Box>
+                <Box>{approvedBut ? notApproved : Approved}</Box>
               </Box>
             )}
             {menuNumber === 2 && <SlateJSTextEditor command={sendData} />}

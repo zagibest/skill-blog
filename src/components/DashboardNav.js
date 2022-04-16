@@ -57,7 +57,7 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
         <Button
           display={{ md: "none", base: "block" }}
           variant="outline"
-          ml="4"
+          ml={"4"}
           onClick={onOpen}
         >
           <FaEquals />
@@ -66,17 +66,10 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
           to="/"
           _hover={{ textDecor: "none" }}
           ml={{ md: "10", base: "0" }}
-          display={{ md: "block", base: "none" }}
-          name={<Button variant="unstyled">SkillEd</Button>}
-        ></Navlink>
-        <Navlink
-          to="/"
-          _hover={{ textDecor: "none", color: "p9" }}
-          ml={{ md: "10", base: "4" }}
-          display={{ md: "none", base: "block" }}
+          // display={{ md: "block", base: "none" }}
           name={
-            <Button variant="unstyled" fontWeight="black" fontSize="lg">
-              SE
+            <Button variant="unstyled" fontSize={{ md: "md", base: "xl" }}>
+              SkillEd
             </Button>
           }
         ></Navlink>
@@ -109,14 +102,14 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
               justifyContent="flex-start"
               alignItems="center"
               my="2"
-              leftIcon={<FaBook />}
+              leftIcon={<FaUser />}
               mt="20"
               onClick={() => {
                 setMenuNumber(1);
                 onClose();
               }}
             >
-              Бүх нийтлэлүүд
+              Хэрэглэгч
             </Button>
             <Button
               w="90%"
@@ -138,13 +131,13 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
               justifyContent="flex-start"
               alignItems="center"
               my="2"
-              leftIcon={<FaUser />}
+              leftIcon={<FaBook />}
               onClick={() => {
                 setMenuNumber(3);
                 onClose();
               }}
             >
-              Хэрэглэгч
+              Бүх нийтлэл
             </Button>
           </DrawerBody>
         </DrawerContent>

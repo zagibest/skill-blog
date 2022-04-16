@@ -47,7 +47,7 @@ export function Navbar({ bg }) {
         <Navlink
           to="/"
           _hover={{ textDecor: "none", color: "green.500" }}
-          ml={{ md: "10", base: "2" }}
+          // ml={{ md: "10", base: "2" }}
           display={{ md: "none", base: "block" }}
           variant="outline"
           bg="primary"
@@ -129,30 +129,42 @@ export function Navbar({ bg }) {
           >
             <FaBars />
           </MenuButton>
-          <MenuList color="black">
+          <MenuList color="white" bg="primary">
             {!currentUser && (
               <>
-                <MenuItem>
-                  <Navlink to="/login" name="Нэвтрэх" variant="outline" />
+                <MenuItem w="100%" _hover={{ bg: "p9" }} _focus={{ bg: "p9" }}>
+                  <Navlink
+                    to="/login"
+                    name="Нэвтрэх"
+                    variant="outline"
+                    linkw="100%"
+                    w="100%"
+                  />
                 </MenuItem>
-                <MenuItem>
-                  <Navlink to="/register" name="Бүртгүүлэх" variant="outline" />
+                <MenuItem _hover={{ bg: "p9" }} _focus={{ bg: "p9" }}>
+                  <Navlink
+                    to="/register"
+                    name="Бүртгүүлэх"
+                    variant="outline"
+                    linkw="100%"
+                  />
                 </MenuItem>
               </>
             )}
 
             {currentUser && (
               <>
-                <MenuItem>
+                <MenuItem _hover={{ bg: "p9" }} _focus={{ bg: "p9" }} w="100%">
                   <Navlink
                     to="/dashboard"
-                    name="Dashboard"
+                    name="Миний булан"
                     w="100%"
                     variant="outline"
                   />
                 </MenuItem>
-                <MenuItem>
+                <MenuItem _hover={{ bg: "p9" }} _focus={{ bg: "p9" }} w="100%">
                   <Navlink
+                    w="100%"
                     variant="outline"
                     to="/logout"
                     name={<FaSignOutAlt />}

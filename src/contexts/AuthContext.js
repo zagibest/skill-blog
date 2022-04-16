@@ -33,12 +33,6 @@ export default function AuthContextProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user ? user : null);
     });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
     const q = query(collection(db, "blogPost"));
 
     const unsub = onSnapshot(q, (querySnapshot) => {
@@ -49,8 +43,8 @@ export default function AuthContextProvider({ children }) {
       setBlogData(tmpArray);
       console.log(blogData);
     });
-
     return () => {
+      unsubscribe();
       unsub();
     };
   }, []);

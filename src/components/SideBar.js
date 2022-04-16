@@ -44,7 +44,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               onClick={() => setMenuNumber(1)}
               _focus={{ border: "none" }}
             >
-              Бүх нийтлэлүүд
+              Хэрэглэгч
             </Button>
             <Button
               w="90%"
@@ -76,7 +76,7 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
               bg={currentMenu === 3 ? "gray.100" : "none"}
               _focus={{ border: "none" }}
             >
-              Хэрэглэгч
+              Бүх нийтлэлүүд
             </Button>
           </Box>
         )}
@@ -126,7 +126,12 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
           justifyContent={open ? "flex-end" : "center"}
           mb="5"
         >
-          <Button onClick={() => handleOpen()} variant="ghost">
+          <Button
+            onClick={() => {
+              handleOpen();
+            }}
+            variant="ghost"
+          >
             {open ? <FaChevronLeft /> : <FaChevronRight />}
           </Button>
         </Box>
