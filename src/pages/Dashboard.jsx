@@ -28,7 +28,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
 export default function Dashboard() {
-  const { blogData } = useAuth();
+  const { blogData, authorData } = useAuth();
   const [approvedBut, setApprovedBut] = useState(true);
   const { currentUser } = useAuth();
   console.log(currentUser?.user.uid);
@@ -36,6 +36,19 @@ export default function Dashboard() {
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
   const toast = useToast();
+
+  const [selectedUser, setSelectedUser] = useState();
+
+  useEffect(() => {
+    const unsub = authorData?.forEach((author) => {
+      if (currentUser?.user.uid === author.id) {
+        setSelectedUser(author);
+      }
+    });
+    return unsub;
+  }, [currentUser, authorData]);
+
+  console.log("selectedUser", selectedUser);
 
   const notApproved = blogData?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
@@ -201,6 +214,7 @@ export default function Dashboard() {
                   </Box>
                 </Box>
                 <Divider py="3" />
+                {selectedUser?.admin && <Text fontWeight="bold">Админ</Text>}
                 <Box display="flex" flexDir={{ md: "row", base: "column" }}>
                   <Box
                     mt="5"

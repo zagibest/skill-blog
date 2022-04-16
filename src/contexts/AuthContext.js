@@ -33,13 +33,13 @@ const AuthContext = createContext({
 export const useAuth = () => useContext(AuthContext);
 
 export default function AuthContextProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
   const [blogData, setBlogData] = useState();
   const [authorData, setAuthorData] = useState();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user ? { user, role: "author" } : null);
+      setCurrentUser(user && { user, role: "author" });
     });
     const q = query(collection(db, "blogPost"));
 
@@ -51,7 +51,7 @@ export default function AuthContextProvider({ children }) {
       setBlogData(tmpArray);
     });
 
-    const q2 = query(collection(db, "athors"));
+    const q2 = query(collection(db, "authors"));
 
     const unsub2 = onSnapshot(q2, (querySnapshot) => {
       let tmpArray = [];
@@ -67,31 +67,6 @@ export default function AuthContextProvider({ children }) {
       unsub2();
     };
   }, []);
-
-  // useEffect(() => {
-  //   const sendData = () => {
-  //     try {
-  //       setDoc(doc(db, "authors", currentUser?.id), {
-  //         authorName: currentUser?.displayName
-  //           ? currentUser.displayName
-  //           : currentUser.email,
-  //         authorId: currentUser.id,
-  //         authorPro: currentUser?.photoURL,
-  //         role: "author",
-  //         dateCreated: serverTimestamp(),
-  //       });
-  //     } catch (error) {
-  //       alert(error);
-  //     }
-  //   };
-  //   return () => {
-  //     sendData();
-  //   };
-  // }, [currentUser]);
-
-  useEffect(() => {
-    console.log("User: " + currentUser);
-  }, [currentUser]);
 
   useEffect(() => {
     console.log("This is: ", blogData);

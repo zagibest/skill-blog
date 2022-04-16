@@ -10,15 +10,15 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-export const UserProfile = () => {
+export const UserProfile = (props) => {
   return (
     <LinkBox w="100%">
       <Divider my="3" />
       <Box display="flex" justifyContent="space-between">
         <Box display="flex" justifyContent="space-between">
-          <Avatar />
+          <Avatar src={props.authorPro} />
           <Box ml="2">
-            <Text fontWeight="bold">Б.Эрдэнээ</Text>
+            <Text fontWeight="bold">{props.authorName}</Text>
             <Text fontSize="sm">210 нийтлэл</Text>
           </Box>
         </Box>

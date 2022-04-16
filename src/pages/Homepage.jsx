@@ -1,5 +1,5 @@
 import { Box, Button, Text, Image } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { PostCard } from "../components/PostCard";
 import { UserProfile } from "../components/UserProfile";
 import { Navbar } from "../components/Navbar";
@@ -7,9 +7,51 @@ import { FaPlus, FaChevronDown } from "react-icons/fa";
 import { Footer } from "../components/Footer";
 // import { Data } from "../contexts/Data";
 import { useAuth } from "../contexts/AuthContext";
+import { db } from "../utils/init-firebase";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 export default function Homepage() {
   const { blogData } = useAuth();
+  const { authorData } = useAuth();
+  const { currentUser } = useAuth();
+  console.log(authorData);
+  console.log(blogData);
+  console.log(currentUser?.user.uid);
+
+  useEffect(() => {
+    const sendData = () => {
+      try {
+        setDoc(
+          doc(db, "authors", currentUser?.user.uid),
+          {
+            authorName: currentUser?.user.displayName
+              ? currentUser?.user.displayName
+              : currentUser?.user.email,
+            authorId: currentUser?.user.uid,
+            authorPro: currentUser?.user.photoURL
+              ? currentUser?.user.photoURL
+              : "",
+            role: "author",
+            dateCreated: serverTimestamp(),
+          },
+          { merge: true }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    return () => sendData();
+  }, [currentUser]);
+
+  const authors = authorData?.map((author) => {
+    return (
+      <UserProfile
+        key={author.id}
+        authorName={author.authorName}
+        authorPro={author.authorPro}
+      />
+    );
+  });
 
   const posts = blogData?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
@@ -131,9 +173,7 @@ export default function Homepage() {
             >
               Онцлох нийтлэгчид
             </Text>
-            <UserProfile />
-            <UserProfile />
-            <UserProfile />
+            {authors}
           </Box>
         </Box>
       </Box>
