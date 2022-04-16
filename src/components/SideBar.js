@@ -6,9 +6,16 @@ import {
   FaChevronRight,
   FaBook,
   FaUser,
+  FaUsersCog,
 } from "react-icons/fa";
 
-export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
+export function SideBar({
+  open,
+  handleOpen,
+  setMenuNumber,
+  currentMenu,
+  admin,
+}) {
   return (
     <Box display={{ md: "block", base: "none" }}>
       <Box
@@ -78,6 +85,26 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
             >
               Бүх нийтлэлүүд
             </Button>
+            {admin && (
+              <Button
+                w="90%"
+                my="2"
+                display="flex"
+                justifyContent="flex-start"
+                variant="ghost"
+                onClick={() => setMenuNumber(4)}
+                bg={currentMenu === 4 ? "gray.100" : "none"}
+                _focus={{ border: "none" }}
+                leftIcon={
+                  <FaUsersCog
+                    fontSize="20px"
+                    color={currentMenu === 4 ? "#1f46cf" : "black"}
+                  />
+                }
+              >
+                Админ
+              </Button>
+            )}
           </Box>
         )}
         {!open && (
@@ -118,6 +145,21 @@ export function SideBar({ open, handleOpen, setMenuNumber, currentMenu }) {
             >
               <FaBook color={currentMenu === 3 ? "#1f46cf" : "black"} />
             </Button>
+            {admin && (
+              <Button
+                w="90%"
+                my="2"
+                variant="ghost"
+                onClick={() => setMenuNumber(4)}
+                bg={currentMenu === 4 ? "gray.100" : "none"}
+                _focus={{ border: "none" }}
+              >
+                <FaUsersCog
+                  fontSize="20px"
+                  color={currentMenu === 4 ? "#1f46cf" : "black"}
+                />
+              </Button>
+            )}
           </Box>
         )}
         <Box

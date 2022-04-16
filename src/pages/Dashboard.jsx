@@ -9,6 +9,11 @@ import {
   Divider,
   Avatar,
   useToast,
+  Badge,
+  useEditableControls,
+  ButtonGroup,
+  IconButton,
+  Flex,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { DashboardNav } from "../components/DashboardNav";
@@ -22,14 +27,25 @@ import {
   FaThumbsUp,
   FaComment,
   FaStar,
+  FaUserEdit,
+  FaSave,
+  FaTimes,
+  FaEdit,
 } from "react-icons/fa";
 import { PostCard } from "../components/PostCard";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
 export default function Dashboard() {
   const { blogData, authorData } = useAuth();
   const [approvedBut, setApprovedBut] = useState(true);
+  const [approvedButAdmin, setApprovedButAdmin] = useState(true);
   const { currentUser } = useAuth();
   console.log(currentUser?.user.uid);
 
@@ -70,6 +86,62 @@ export default function Dashboard() {
           authorName={post.authorName}
           date={year + "/" + month + "/" + days}
           body={post.body}
+          link={post.id}
+          authorPro={post.authorPro}
+        />
+      );
+    }
+  });
+
+  const notApprovedAll = blogData?.map((post) => {
+    const year = new Date(post.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(post.dateCreated?.seconds * 1000)
+      .getMonth()
+      .toString();
+    const days = new Date(post.dateCreated?.seconds * 1000)
+      .getDate()
+      .toString();
+
+    month++;
+    if (post.approved === false) {
+      return (
+        <PostCard
+          key={post.id}
+          title={post.title}
+          authorName={post.authorName}
+          date={year + "/" + month + "/" + days}
+          body={post.body}
+          link={post.id}
+          authorPro={post.authorPro}
+        />
+      );
+    }
+  });
+
+  const ApprovedAll = blogData?.map((post) => {
+    const year = new Date(post.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(post.dateCreated?.seconds * 1000)
+      .getMonth()
+      .toString();
+    const days = new Date(post.dateCreated?.seconds * 1000)
+      .getDate()
+      .toString();
+
+    month++;
+    if (post.approved === true) {
+      return (
+        <PostCard
+          key={post.id}
+          title={post.title}
+          authorName={post.authorName}
+          date={year + "/" + month + "/" + days}
+          body={post.body}
+          link={post.id}
+          authorPro={post.authorPro}
         />
       );
     }
@@ -95,6 +167,8 @@ export default function Dashboard() {
           authorName={post.authorName}
           date={year + "/" + month + "/" + days}
           body={post.body}
+          link={post.id}
+          authorPro={post.authorPro}
         />
       );
     }
@@ -136,6 +210,43 @@ export default function Dashboard() {
     }
   };
 
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="center" size="sm" ml="10">
+        <IconButton
+          icon={<FaCheck />}
+          {...getSubmitButtonProps()}
+          onClick={changeUserName}
+        />
+        <IconButton icon={<FaTimes />} {...getCancelButtonProps()} />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center" ml="10">
+        <IconButton size="sm" icon={<FaEdit />} {...getEditButtonProps()} />
+      </Flex>
+    );
+  }
+
+  const [newName, setNewName] = useState(currentUser?.user.displayName);
+
+  const changeUserName = () => {
+    try {
+      updateDoc(doc(db, "authors", currentUser?.user.uid), {
+        authorName: newName,
+      });
+    } catch (e) {
+      alert(e);
+    }
+  };
+  console.log(newName);
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
       <DashboardNav setMenuNumber={setMenuNumber} currentMenu={menuNumber} />
@@ -145,6 +256,7 @@ export default function Dashboard() {
           handleOpen={handleOpen}
           setMenuNumber={setMenuNumber}
           currentMenu={menuNumber}
+          admin={selectedUser?.admin}
         />
         <Box
           w="100%"
@@ -187,34 +299,37 @@ export default function Dashboard() {
             {menuNumber === 2 && <SlateJSTextEditor command={sendData} />}
             {menuNumber === 1 && (
               <Box flex="1">
-                <Box display="flex">
-                  <Avatar src={currentUser?.photoURL} />
-                  <Box ml="10">
-                    <Box display="flex" alignItems="center">
-                      <Text fontWeight="semibold">Нэр:</Text>
-                      <Editable
-                        defaultValue={
-                          currentUser?.displayName
-                            ? currentUser?.displayName
-                            : "Нэр"
-                        }
-                        ml="2"
-                      >
-                        <EditablePreview />
-                        <EditableInput />
-                      </Editable>
+                <Box display="flex" justifyContent="space-between">
+                  <Box display="flex">
+                    <Box display="flex" flexDir="column">
+                      <Avatar src={currentUser?.user.photoURL} />
+                      {selectedUser?.admin && (
+                        <Badge mt="2" bg="primary" color="white">
+                          Админ
+                        </Badge>
+                      )}
                     </Box>
-                    <Box display="flex" alignItems="center">
-                      <Text fontWeight="semibold">Овог:</Text>
-                      <Editable defaultValue="Овог" ml="2">
-                        <EditablePreview />
-                        <EditableInput />
-                      </Editable>
+
+                    <Box ml="10">
+                      <Box display="flex" alignItems="center">
+                        <Text fontWeight="semibold">Нэр:</Text>
+                        <Editable
+                          defaultValue={selectedUser?.authorName}
+                          ml="2"
+                          display="flex"
+                          onChange={(e) => setNewName(e)}
+                        >
+                          <EditablePreview />
+                          <EditableInput />
+                          <EditableControls />
+                        </Editable>
+                      </Box>
                     </Box>
                   </Box>
+                  <Box ml="20" display="flex" flexDir="column"></Box>
                 </Box>
                 <Divider py="3" />
-                {selectedUser?.admin && <Text fontWeight="bold">Админ</Text>}
+
                 <Box display="flex" flexDir={{ md: "row", base: "column" }}>
                   <Box
                     mt="5"
@@ -284,6 +399,31 @@ export default function Dashboard() {
                     </Text>
                   </Box>
                 </Box>
+              </Box>
+            )}
+            {selectedUser?.admin && menuNumber === 4 && (
+              <Box>
+                <Text fontWeight="bold">Админ</Text>
+                <Box display="flex">
+                  <Button
+                    leftIcon={<FaPaperPlane />}
+                    w={{ md: "48", base: "48%" }}
+                    bg={approvedButAdmin ? "gray.200" : "transparent"}
+                    onClick={() => setApprovedButAdmin(!approvedButAdmin)}
+                  >
+                    Ирсэн
+                  </Button>
+                  <Button
+                    ml="2"
+                    leftIcon={<FaCheck />}
+                    w={{ md: "48", base: "48%" }}
+                    onClick={() => setApprovedButAdmin(!approvedButAdmin)}
+                    bg={approvedButAdmin ? "transparent" : "gray.200"}
+                  >
+                    Нийтлэгдсэн
+                  </Button>
+                </Box>
+                <Box>{approvedButAdmin ? notApprovedAll : ApprovedAll}</Box>
               </Box>
             )}
           </Box>
