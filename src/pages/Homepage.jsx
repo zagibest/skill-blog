@@ -48,7 +48,7 @@ export default function Homepage() {
         w="100%"
         h="xl"
         // bg={{ md: "transparent", base: "primary" }}
-        bg="transparent"
+        // bg="transparent"
         // bgImg="./images/test7.svg"
         display="flex"
         flexDir="column"
@@ -59,7 +59,7 @@ export default function Homepage() {
         zIndex="2"
       >
         <Image
-          // src="./images/final.svg"
+          src="./images/final.svg"
           position="absolute"
           top="0"
           right="0"
