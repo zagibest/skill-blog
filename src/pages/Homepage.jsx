@@ -30,6 +30,8 @@ export default function Homepage() {
         authorName={post.authorName}
         date={year + "/" + month + "/" + days}
         body={post.body}
+        link={post.id}
+        authorPro={post.authorPro}
       />
     );
   });

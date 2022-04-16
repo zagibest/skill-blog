@@ -11,9 +11,12 @@ import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
+import { useParams } from "react-router-dom";
 
 export default function Post() {
   const { blogData } = useAuth();
+  const { postid } = useParams();
+  console.log("postId", postid);
   const editor = useMemo(() => withReact(createEditor()), []);
 
   const BlockquoteStyle = {
@@ -90,20 +93,22 @@ export default function Post() {
 
   const Porsts = blogData?.map((e) => {
     // const existingValue = JSON.parse(e.body);
-    return (
-      <>
-        <Heading as="h2" mt="6" mb="4">
-          {e.title}
-        </Heading>
-        <Slate value={e.body} editor={editor}>
-          <Editable
-            readOnly
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-          />
-        </Slate>
-      </>
-    );
+    if (e.id === postid) {
+      return (
+        <>
+          <Heading as="h2" mt="6" mb="4">
+            {e.title}
+          </Heading>
+          <Slate value={e.body} editor={editor}>
+            <Editable
+              readOnly
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+            />
+          </Slate>
+        </>
+      );
+    }
   });
 
   return (

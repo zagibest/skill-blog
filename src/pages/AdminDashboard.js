@@ -27,11 +27,10 @@ import { PostCard } from "../components/PostCard";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
-export default function Dashboard() {
+export default function AdminDashboard() {
   const { blogData } = useAuth();
   const [approvedBut, setApprovedBut] = useState(true);
   const { currentUser } = useAuth();
-  console.log(currentUser?.user.uid);
 
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
@@ -49,7 +48,7 @@ export default function Dashboard() {
       .toString();
 
     month++;
-    if (post.approved === false && post.authorId === currentUser?.user.uid) {
+    if (post.approved === false) {
       return (
         <PostCard
           key={post.id}
@@ -74,7 +73,7 @@ export default function Dashboard() {
       .toString();
 
     month++;
-    if (post.approved === true && post.authorId === currentUser?.user.uid) {
+    if (post.approved === true) {
       return (
         <PostCard
           key={post.id}
@@ -86,6 +85,10 @@ export default function Dashboard() {
       );
     }
   });
+
+  const setToTwo = () => {
+    setMenuNumber(2);
+  };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -108,13 +111,12 @@ export default function Dashboard() {
       addDoc(collection(db, "blogPost"), {
         title: title,
         body: value,
-        authorName: currentUser?.user.displayName
-          ? currentUser?.user.displayName
-          : currentUser?.user.email,
-        authorPro: currentUser?.user.photoURL ? currentUser?.user.photoURL : "",
+        authorName: currentUser?.displayName
+          ? currentUser.displayName
+          : currentUser.email,
+        authorPro: currentUser?.photoURL,
         dateCreated: serverTimestamp(),
         approved: false,
-        authorId: currentUser?.user.uid,
       });
       showToast();
       setMenuNumber(3);
@@ -171,7 +173,6 @@ export default function Dashboard() {
                 <Box>{approvedBut ? notApproved : Approved}</Box>
               </Box>
             )}
-            {menuNumber === 2 && <SlateJSTextEditor command={sendData} />}
             {menuNumber === 1 && (
               <Box flex="1">
                 <Box display="flex">
@@ -190,6 +191,7 @@ export default function Dashboard() {
                         <EditablePreview />
                         <EditableInput />
                       </Editable>
+                      <Text as="h1">Admin</Text>
                     </Box>
                     <Box display="flex" alignItems="center">
                       <Text fontWeight="semibold">Овог:</Text>

@@ -5,7 +5,7 @@ import { Navbar } from "./Navbar";
 export function Layout({ children }) {
   return (
     <Box bg={useColorModeValue("gray.50", "gray.700")} minH="100vh" w="100%">
-      <Navbar />
+      <Navbar bg="primary" />
       <Container maxW="container.lg">{children}</Container>
     </Box>
   );

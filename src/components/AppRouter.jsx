@@ -15,6 +15,7 @@ import Dashboard from "../pages/Dashboard";
 import Registerpage from "../pages/Registerpage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import Post from "../pages/Post";
+import AdminDashboard from "../pages/AdminDashboard";
 
 export default function AppRouter(props) {
   return (
@@ -25,7 +26,8 @@ export default function AppRouter(props) {
           <ProtectedRoute exact path="/login" component={Loginpage} />
           <ProtectedRoute exact path="/register" component={Registerpage} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/post" component={Post} />
+          <AdminRoute exact path="/admin" component={AdminDashboard} />
+          <Route path="/post/:postid" component={Post} />
           <ProtectedRoute
             exact
             path="/forgot-password"
@@ -72,4 +74,23 @@ function ProtectedRoute(props) {
       }}
     />
   );
+}
+
+function AdminRoute(props) {
+  const { currentUser } = useAuth();
+  const { path } = props;
+  console.log("path", path);
+  const location = useLocation();
+  console.log("location state", location.state);
+
+  if (currentUser?.role !== "admin" && path === "/admin") {
+    return (
+      <Redirect
+        to={{
+          pathname: "/dashboard",
+          state: { from: path },
+        }}
+      />
+    );
+  }
 }

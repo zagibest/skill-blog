@@ -10,7 +10,14 @@ import {
   signOut,
   confirmPasswordReset,
 } from "firebase/auth";
-import { collection, query, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
 const AuthContext = createContext({
@@ -28,10 +35,11 @@ export const useAuth = () => useContext(AuthContext);
 export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [blogData, setBlogData] = useState();
+  const [authorData, setAuthorData] = useState();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user ? user : null);
+      setCurrentUser(user ? { user, role: "author" } : null);
     });
     const q = query(collection(db, "blogPost"));
 
@@ -41,16 +49,48 @@ export default function AuthContextProvider({ children }) {
         tmpArray.push({ ...doc.data(), id: doc.id });
       });
       setBlogData(tmpArray);
-      console.log(blogData);
     });
+
+    const q2 = query(collection(db, "athors"));
+
+    const unsub2 = onSnapshot(q2, (querySnapshot) => {
+      let tmpArray = [];
+      querySnapshot.forEach((doc) => {
+        tmpArray.push({ ...doc.data(), id: doc.id });
+      });
+      setAuthorData(tmpArray);
+    });
+
     return () => {
       unsubscribe();
       unsub();
+      unsub2();
     };
   }, []);
 
+  // useEffect(() => {
+  //   const sendData = () => {
+  //     try {
+  //       setDoc(doc(db, "authors", currentUser?.id), {
+  //         authorName: currentUser?.displayName
+  //           ? currentUser.displayName
+  //           : currentUser.email,
+  //         authorId: currentUser.id,
+  //         authorPro: currentUser?.photoURL,
+  //         role: "author",
+  //         dateCreated: serverTimestamp(),
+  //       });
+  //     } catch (error) {
+  //       alert(error);
+  //     }
+  //   };
+  //   return () => {
+  //     sendData();
+  //   };
+  // }, [currentUser]);
+
   useEffect(() => {
-    console.log("The user is", currentUser);
+    console.log("User: " + currentUser);
   }, [currentUser]);
 
   useEffect(() => {
@@ -93,6 +133,7 @@ export default function AuthContextProvider({ children }) {
     forgotPassword,
     resetPassword,
     blogData,
+    authorData,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

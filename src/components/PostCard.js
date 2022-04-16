@@ -11,6 +11,7 @@ import {
   chakra,
   Heading,
   Button,
+  Link,
 } from "@chakra-ui/react";
 import React, { useCallback, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
@@ -94,7 +95,6 @@ export const PostCard = (props) => {
 
   return (
     <LinkBox
-      to={props.link}
       _hover={{ textDecor: "none" }}
       boxShadow="base"
       p="4"
@@ -121,18 +121,17 @@ export const PostCard = (props) => {
           />
         </Slate>
       </Box>
-      <Button variant="unstyled" color="primary">
+      <Link
+        _hover={{ textDecor: "none" }}
+        color="primary"
+        href={`post/${props.link}`}
+      >
         цааш унших...
-      </Button>
+      </Link>
       <Divider my="3" />
       <Box display="flex" justifyContent="space-between" alignItems="flex-end">
         <Box display="flex" alignItems="center">
-          <Avatar
-            h="10"
-            w="10"
-            mr="2"
-            src={props.authorPro ? props.authorPro : ""}
-          />
+          <Avatar h="10" w="10" mr="2" src={props.authorPro} />
           <Text mr="2">{props.authorName}</Text>
         </Box>
         <Box>
