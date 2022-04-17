@@ -39,6 +39,7 @@ import {
   serverTimestamp,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
@@ -55,6 +56,9 @@ export default function Dashboard() {
 
   const [selectedUser, setSelectedUser] = useState();
 
+  var approvedPostNo = 0,
+    pendingPostNo = 0;
+
   useEffect(() => {
     const unsub = authorData?.forEach((author) => {
       if (currentUser?.user.uid === author.id) {
@@ -65,6 +69,24 @@ export default function Dashboard() {
   }, [currentUser, authorData]);
 
   console.log("selectedUser", selectedUser);
+
+  const deletePost = (id) => {
+    try {
+      deleteDoc(doc(db, "blogPost", id));
+      showToast();
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const acceptPost = (id) => {
+    try {
+      updateDoc(doc(db, "blogPost", id), { approved: true });
+      showToast();
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   const notApproved = blogData?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
@@ -79,6 +101,7 @@ export default function Dashboard() {
 
     month++;
     if (post.approved === false && post.authorId === currentUser?.user.uid) {
+      pendingPostNo++;
       return (
         <PostCard
           key={post.id}
@@ -88,6 +111,9 @@ export default function Dashboard() {
           body={post.body}
           link={post.id}
           authorPro={post.authorPro}
+          admin={selectedUser?.admin}
+          delete={() => deletePost(post.id)}
+          approve={() => acceptPost(post.id)}
         />
       );
     }
@@ -115,6 +141,9 @@ export default function Dashboard() {
           body={post.body}
           link={post.id}
           authorPro={post.authorPro}
+          admin={selectedUser?.admin}
+          delete={() => deletePost(post.id)}
+          approve={() => acceptPost(post.id)}
         />
       );
     }
@@ -142,6 +171,8 @@ export default function Dashboard() {
           body={post.body}
           link={post.id}
           authorPro={post.authorPro}
+          admin={selectedUser?.admin}
+          delete={() => deletePost(post.id)}
         />
       );
     }
@@ -160,6 +191,7 @@ export default function Dashboard() {
 
     month++;
     if (post.approved === true && post.authorId === currentUser?.user.uid) {
+      approvedPostNo++;
       return (
         <PostCard
           key={post.id}
@@ -169,10 +201,42 @@ export default function Dashboard() {
           body={post.body}
           link={post.id}
           authorPro={post.authorPro}
+          admin={selectedUser?.admin}
+          delete={() => deletePost(post.id)}
         />
       );
     }
   });
+
+  useEffect(() => {
+    const unsub = () => {
+      updateDoc(
+        doc(db, "authors", currentUser?.user.uid),
+        {
+          approvedPost: approvedPostNo,
+        },
+        { merge: true }
+      );
+    };
+    return () => {
+      unsub();
+    };
+  }, [approvedPostNo, currentUser?.user.uid]);
+
+  useEffect(() => {
+    const unsub = () => {
+      updateDoc(
+        doc(db, "authors", currentUser?.user.uid),
+        {
+          pendingPost: pendingPostNo,
+        },
+        { merge: true }
+      );
+    };
+    return () => {
+      unsub();
+    };
+  }, [currentUser?.user.uid, pendingPostNo]);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -181,7 +245,6 @@ export default function Dashboard() {
   const showToast = () => {
     toast({
       title: "Амжилттай",
-      description: "Нийтлэл илгээгдлээ.",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -202,6 +265,10 @@ export default function Dashboard() {
         dateCreated: serverTimestamp(),
         approved: false,
         authorId: currentUser?.user.uid,
+        likeNo: 0,
+        commentNo: 0,
+        likedUsers: [],
+        commentedUsers: [],
       });
       showToast();
       setMenuNumber(3);
@@ -246,6 +313,17 @@ export default function Dashboard() {
     }
   };
   console.log(newName);
+
+  const showToastFail = () => {
+    toast({
+      title: "Амжилтгүй",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+      variant: "left-accent",
+      position: "top-right",
+    });
+  };
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
@@ -324,6 +402,9 @@ export default function Dashboard() {
                           <EditableControls />
                         </Editable>
                       </Box>
+                      <Text mt="5" as="i">
+                        {selectedUser?.approvedPost} нийтлэл
+                      </Text>
                     </Box>
                   </Box>
                   <Box ml="20" display="flex" flexDir="column"></Box>

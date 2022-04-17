@@ -5,19 +5,38 @@ import {
   ListItem,
   UnorderedList,
   OrderedList,
+  Button,
+  Box,
+  Avatar,
+  Text,
+  Divider,
+  Textarea,
 } from "@chakra-ui/react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
 import { useParams } from "react-router-dom";
+import { FaThumbsUp, FaComment } from "react-icons/fa";
+import {
+  updateDoc,
+  doc,
+  arrayUnion,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../utils/init-firebase";
 
 export default function Post() {
-  const { blogData } = useAuth();
+  const { blogData, currentUser } = useAuth();
   const { postid } = useParams();
-  console.log("postId", postid);
+  const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState();
+  console.log(currentUser);
   const editor = useMemo(() => withReact(createEditor()), []);
+  var likeNumber;
 
   const BlockquoteStyle = {
     margin: "1.5em 10px",
@@ -91,11 +110,101 @@ export default function Post() {
     return <span {...attributes}>{children}</span>;
   };
 
+  // useEffect(() => {
+  //   const unsub = () => {
+  //     var l = parseInt(likeNumber) + 1;
+  //     if (liked) {
+  //       updateDoc(
+  //         doc(db, "blogPost", postid),
+  //         {
+  //           likedUsers: arrayUnion(currentUser?.user.id),
+  //         },
+  //         { merge: true }
+  //       );
+  //     }
+  //   };
+  //   return () => {
+  //     unsub();
+  //   };
+  // }, [liked]);
+
+  const CommentSend = () => {
+    try {
+      updateDoc(doc(db, "blogPost", postid), {
+        comments: arrayUnion({
+          commentor: currentUser?.user.uid,
+          comment: comment,
+          commentDate: new Date(),
+        }),
+      });
+      setComment("");
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const LikeSend = () => {
+    try {
+      updateDoc(doc(db, "blogPost", postid), {
+        likes: arrayUnion({
+          liker: currentUser?.user.uid,
+          liked: liked,
+        }),
+      });
+      setComment("");
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  var comments;
+
+  for (var i = 0; i < blogData?.length; i++) {
+    if (blogData[i].id === postid) {
+      comments = blogData[i].comments.map((data) => {
+        const year = new Date(data.commentDate?.seconds * 1000)
+          .getFullYear()
+          .toString();
+        var month = new Date(data.commentDate?.seconds * 1000)
+          .getMonth()
+          .toString();
+        const days = new Date(data.commentDate?.seconds * 1000)
+          .getDate()
+          .toString();
+        month++;
+        return (
+          <Box
+            key={data.commentor}
+            w={{ md: "md", sm: "90%" }}
+            bg="white"
+            boxShadow="sm"
+            mt="4"
+            borderRadius="10"
+            p="4"
+          >
+            <Text fontWeight="semibold">{data.comment}</Text>
+            <Box w="100%" display="flex" justifyContent="flex-end">
+              <Text fontSize="sm">{month + "/" + days + "/" + year}</Text>
+            </Box>
+          </Box>
+        );
+      });
+      console.log(blogData[i]);
+    }
+  }
+
   const Porsts = blogData?.map((e) => {
-    // const existingValue = JSON.parse(e.body);
+    const year = new Date(e.dateCreated?.seconds * 1000)
+      .getFullYear()
+      .toString();
+    var month = new Date(e.dateCreated?.seconds * 1000).getMonth().toString();
+    const days = new Date(e.dateCreated?.seconds * 1000).getDate().toString();
+
+    month++;
     if (e.id === postid) {
+      likeNumber = e.likeNo;
       return (
-        <>
+        <Container maxW="container.lg" py={4}>
           <Heading as="h2" mt="6" mb="4">
             {e.title}
           </Heading>
@@ -106,16 +215,61 @@ export default function Post() {
               renderLeaf={renderLeaf}
             />
           </Slate>
-        </>
+          <Divider my="3" />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="flex-end"
+          >
+            <Box display="flex" alignItems="center">
+              <Avatar h="10" w="10" mr="2" src={e.authorPro} />
+              <Text mr="2">{e.authorName}</Text>
+            </Box>
+            <Box>
+              <Text>{month + "/" + days + "/" + year}</Text>
+            </Box>
+          </Box>
+        </Container>
       );
     }
   });
 
   return (
     <Layout>
-      <Container maxW="container.lg" py={4}>
-        {Porsts}
-      </Container>
+      {Porsts}
+
+      <Box display="flex" mt="10" alignItems="center">
+        <Button
+          onClick={() => setLiked(!liked)}
+          color={liked ? "primary" : "black"}
+          borderRadius="full"
+        >
+          <FaThumbsUp />
+        </Button>
+        <Text fontWeight="bold" fontSize="lg" ml="1" color="primary">
+          {likeNumber}
+        </Text>
+      </Box>
+      <Box mt="5" bg="gray.100" borderRadius="10">
+        <Textarea
+          placeHolder="Сэтгэгдэл"
+          onChange={(e) => {
+            setComment(e.target.value);
+          }}
+        />
+        {comment && (
+          <Button
+            m="3"
+            bg="primary"
+            color="white"
+            leftIcon={<FaComment />}
+            onClick={CommentSend}
+          >
+            Сэтгэгдэл үлдээх
+          </Button>
+        )}
+      </Box>
+      {comments}
     </Layout>
   );
 }

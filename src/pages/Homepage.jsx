@@ -65,17 +65,19 @@ export default function Homepage() {
       .toString();
 
     month++;
-    return (
-      <PostCard
-        key={post.id}
-        title={post.title}
-        authorName={post.authorName}
-        date={year + "/" + month + "/" + days}
-        body={post.body}
-        link={post.id}
-        authorPro={post.authorPro}
-      />
-    );
+    if (post.approved) {
+      return (
+        <PostCard
+          key={post.id}
+          title={post.title}
+          authorName={post.authorName}
+          date={year + "/" + month + "/" + days}
+          body={post.body}
+          link={post.id}
+          authorPro={post.authorPro}
+        />
+      );
+    }
   });
 
   return (

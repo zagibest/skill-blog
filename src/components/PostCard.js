@@ -14,6 +14,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import React, { useCallback, useMemo, useState } from "react";
+import { FaCheck, FaTrash } from "react-icons/fa";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 
@@ -138,6 +139,24 @@ export const PostCard = (props) => {
           <Text>{props.date}</Text>
         </Box>
       </Box>
+      {props.admin && (
+        <>
+          <Divider my="3" />
+          <Box
+            alignItems="flex-end"
+            justifyContent="flex-end"
+            w="100%"
+            display="flex"
+          >
+            <Button onClick={props.approve}>
+              <FaCheck />
+            </Button>
+            <Button ml="2" onClick={props.delete}>
+              <FaTrash />
+            </Button>
+          </Box>
+        </>
+      )}
     </LinkBox>
   );
 };
