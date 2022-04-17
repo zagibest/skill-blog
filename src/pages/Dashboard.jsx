@@ -277,29 +277,29 @@ export default function Dashboard() {
     }
   };
 
-  function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
+  // function EditableControls() {
+  //   const {
+  //     isEditing,
+  //     getSubmitButtonProps,
+  //     getCancelButtonProps,
+  //     getEditButtonProps,
+  //   } = useEditableControls();
 
-    return isEditing ? (
-      <ButtonGroup justifyContent="center" size="sm" ml="10">
-        <IconButton
-          icon={<FaCheck />}
-          {...getSubmitButtonProps()}
-          onClick={changeUserName}
-        />
-        <IconButton icon={<FaTimes />} {...getCancelButtonProps()} />
-      </ButtonGroup>
-    ) : (
-      <Flex justifyContent="center" ml="10">
-        <IconButton size="sm" icon={<FaEdit />} {...getEditButtonProps()} />
-      </Flex>
-    );
-  }
+  //   return isEditing ? (
+  //     <ButtonGroup justifyContent="center" size="sm" ml="10">
+  //       <IconButton
+  //         icon={<FaCheck />}
+  //         {...getSubmitButtonProps()}
+  //         onClick={changeUserName}
+  //       />
+  //       <IconButton icon={<FaTimes />} {...getCancelButtonProps()} />
+  //     </ButtonGroup>
+  //   ) : (
+  //     <Flex justifyContent="center" ml="10">
+  //       <IconButton size="sm" icon={<FaEdit />} {...getEditButtonProps()} />
+  //     </Flex>
+  //   );
+  // }
 
   const [newName, setNewName] = useState(currentUser?.user.displayName);
 
@@ -390,20 +390,23 @@ export default function Dashboard() {
 
                     <Box ml="10">
                       <Box display="flex" alignItems="center">
-                        <Text fontWeight="semibold">Нэр:</Text>
                         <Editable
-                          defaultValue={selectedUser?.authorName}
-                          ml="2"
+                          defaultValue={
+                            currentUser?.user.displayName
+                              ? currentUser?.user.displayName
+                              : currentUser?.user.email
+                          }
                           display="flex"
                           onChange={(e) => setNewName(e)}
+                          fontWeight="bold"
+                          fontSize="lg"
                         >
                           <EditablePreview />
                           <EditableInput />
-                          <EditableControls />
                         </Editable>
                       </Box>
                       <Text mt="5" as="i">
-                        {selectedUser?.approvedPost} нийтлэл
+                        {currentUser?.user.email}
                       </Text>
                     </Box>
                   </Box>
@@ -429,7 +432,7 @@ export default function Dashboard() {
                         <Text ml="2">Нийт нийтлэгдсэн:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary">
-                        20
+                        {selectedUser?.approvedPost}
                       </Text>
                     </Box>
                     <Box display="flex" justifyContent="space-between">
@@ -484,7 +487,14 @@ export default function Dashboard() {
             )}
             {selectedUser?.admin && menuNumber === 4 && (
               <Box>
-                <Text fontWeight="bold">Админ</Text>
+                <Text
+                  fontWeight="semibold"
+                  mb="2"
+                  fontFamily="heading"
+                  fontSize="xl"
+                >
+                  Админ
+                </Text>
                 <Box display="flex">
                   <Button
                     leftIcon={<FaPaperPlane />}
