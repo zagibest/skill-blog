@@ -26,11 +26,12 @@ import {
   FaUser,
   FaMarker,
   FaSignOutAlt,
+  FaUsersCog,
 } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 
-export function DashboardNav({ setMenuNumber, currentMenu }) {
+export function DashboardNav({ setMenuNumber, currentMenu, admin }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
@@ -139,6 +140,22 @@ export function DashboardNav({ setMenuNumber, currentMenu }) {
             >
               Бүх нийтлэл
             </Button>
+            {admin && (
+              <Button
+                w="90%"
+                my="2"
+                display="flex"
+                justifyContent="flex-start"
+                onClick={() => {
+                  setMenuNumber(4);
+                  onClose();
+                }}
+                _focus={{ border: "none" }}
+                leftIcon={<FaUsersCog fontSize="20px" />}
+              >
+                Админ
+              </Button>
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

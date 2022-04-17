@@ -337,7 +337,11 @@ export default function Dashboard() {
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.700")} w="100%">
-      <DashboardNav setMenuNumber={setMenuNumber} currentMenu={menuNumber} />
+      <DashboardNav
+        setMenuNumber={setMenuNumber}
+        currentMenu={menuNumber}
+        admin={selectedUser?.admin}
+      />
       <Box display="flex" w="100%">
         <SideBar
           open={open}
@@ -367,7 +371,7 @@ export default function Dashboard() {
                     leftIcon={<FaPaperPlane />}
                     w={{ md: "48", base: "48%" }}
                     bg={approvedBut ? "gray.200" : "transparent"}
-                    onClick={() => setApprovedBut(!approvedBut)}
+                    onClick={() => setApprovedBut(true)}
                   >
                     Явуулсан
                   </Button>
@@ -375,7 +379,7 @@ export default function Dashboard() {
                     ml="2"
                     leftIcon={<FaCheck />}
                     w={{ md: "48", base: "48%" }}
-                    onClick={() => setApprovedBut(!approvedBut)}
+                    onClick={() => setApprovedBut(false)}
                     bg={approvedBut ? "transparent" : "gray.200"}
                   >
                     Нийтлэгдсэн
