@@ -514,7 +514,7 @@ export default function Dashboard() {
                     leftIcon={<FaPaperPlane />}
                     w={{ md: "48", base: "48%" }}
                     bg={approvedButAdmin ? "gray.200" : "transparent"}
-                    onClick={() => setApprovedButAdmin(!approvedButAdmin)}
+                    onClick={() => setApprovedButAdmin(false)}
                   >
                     Ирсэн
                   </Button>
@@ -522,7 +522,7 @@ export default function Dashboard() {
                     ml="2"
                     leftIcon={<FaCheck />}
                     w={{ md: "48", base: "48%" }}
-                    onClick={() => setApprovedButAdmin(!approvedButAdmin)}
+                    onClick={() => setApprovedButAdmin(true)}
                     bg={approvedButAdmin ? "transparent" : "gray.200"}
                   >
                     Нийтлэгдсэн
@@ -537,13 +537,3 @@ export default function Dashboard() {
     </Box>
   );
 }
-
-// <FormControl isRequired>
-//               <FormLabel>Гарчиг</FormLabel>
-//               <InputGroup>
-//                 <Input
-//                   placeholder="Нийтлэлийн гарчиг"
-//                   w={{ md: "50%", base: "100%" }}
-//                 ></Input>
-//               </InputGroup>
-//             </FormControl>
