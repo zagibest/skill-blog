@@ -14,6 +14,7 @@ import {
   ButtonGroup,
   IconButton,
   Flex,
+  Image,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { DashboardNav } from "../components/DashboardNav";
@@ -70,6 +71,8 @@ export default function Dashboard() {
 
   console.log("selectedUser", selectedUser);
 
+  //Admin commands
+
   const deletePost = (id) => {
     try {
       deleteDoc(doc(db, "blogPost", id));
@@ -87,6 +90,8 @@ export default function Dashboard() {
       alert(e);
     }
   };
+
+  // blogs
 
   const notApproved = blogData?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
@@ -210,13 +215,17 @@ export default function Dashboard() {
 
   useEffect(() => {
     const unsub = () => {
-      updateDoc(
-        doc(db, "authors", currentUser?.user.uid),
-        {
-          approvedPost: approvedPostNo,
-        },
-        { merge: true }
-      );
+      try {
+        updateDoc(
+          doc(db, "authors", currentUser?.user.uid),
+          {
+            approvedPost: approvedPostNo,
+          },
+          { merge: true }
+        );
+      } catch (e) {
+        alert(e);
+      }
     };
     return () => {
       unsub();
@@ -269,6 +278,7 @@ export default function Dashboard() {
         commentNo: 0,
         likedUsers: [],
         commentedUsers: [],
+        comments: [],
       });
       showToast();
       setMenuNumber(3);
@@ -432,7 +442,7 @@ export default function Dashboard() {
                         <Text ml="2">Нийт нийтлэгдсэн:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary">
-                        {selectedUser?.approvedPost}
+                        {approvedPostNo}
                       </Text>
                     </Box>
                     <Box display="flex" justifyContent="space-between">

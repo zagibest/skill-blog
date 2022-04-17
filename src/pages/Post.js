@@ -13,20 +13,13 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { createEditor, Descendant } from "slate";
+import { createEditor } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { Layout } from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
 import { useParams } from "react-router-dom";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
-import {
-  updateDoc,
-  doc,
-  arrayUnion,
-  addDoc,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
+import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
 
 export default function Post() {
@@ -157,11 +150,14 @@ export default function Post() {
     }
   };
 
-  var comments;
+  var comments,
+    commentNo = 0;
 
   for (var i = 0; i < blogData?.length; i++) {
-    if (blogData[i].id === postid) {
-      comments = blogData[i].comments.map((data) => {
+    if (blogData[i]?.id === postid) {
+      // eslint-disable-next-line no-loop-func
+      comments = blogData[i]?.comments.map((data) => {
+        commentNo++;
         const year = new Date(data.commentDate?.seconds * 1000)
           .getFullYear()
           .toString();
@@ -192,6 +188,25 @@ export default function Post() {
       console.log(blogData[i]);
     }
   }
+
+  useEffect(() => {
+    const unsub = () => {
+      try {
+        updateDoc(
+          doc(db, "blogPost", postid),
+          {
+            commentNo: commentNo,
+          },
+          { merge: true }
+        );
+      } catch (e) {
+        alert(e);
+      }
+    };
+    return () => {
+      unsub();
+    };
+  }, [commentNo, currentUser?.user.uid]);
 
   const Porsts = blogData?.map((e) => {
     const year = new Date(e.dateCreated?.seconds * 1000)

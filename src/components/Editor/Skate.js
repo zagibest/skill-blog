@@ -93,7 +93,7 @@ const SlateJSTextEditor = (props) => {
             variant="unstyled"
             fontSize="2xl"
             fontWeight="semibold"
-            mb="3"
+            my="3"
             fontFamily="heading"
             onChange={(e) => setTitle(e.target.value)}
           />

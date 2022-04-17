@@ -43,12 +43,20 @@ export default function Homepage() {
     return () => sendData();
   }, [currentUser]);
 
-  const authors = authorData?.map((author) => {
+  var newAuthorData = [];
+
+  newAuthorData = authorData?.sort(function (a, b) {
+    return a.approvedPost - b.approvedPost;
+  });
+  newAuthorData = newAuthorData?.reverse();
+
+  const authors = newAuthorData?.slice(0, 4).map((author) => {
     return (
       <UserProfile
         key={author.id}
         authorName={author.authorName}
         authorPro={author.authorPro}
+        approvedPost={author.approvedPost}
       />
     );
   });
