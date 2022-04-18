@@ -127,6 +127,7 @@ export default function Homepage() {
           zIndex="-1"
           // display={{ md: "block", base: "none" }}
           h="xl"
+          w="100%"
         />
         <Text
           fontSize={{ md: "6xl", base: "4xl" }}
