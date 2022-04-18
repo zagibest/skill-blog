@@ -38,7 +38,7 @@ export const SearchBar = (props) => {
       <Input
         placeholder="Хайх"
         _placeholder={{ color: "whiteAlpha.600", fontWeight: "semibold" }}
-        _focus={{ borderColor: "green.500" }}
+        _focus={{ borderColor: "p11" }}
         borderColor="transparent"
         // bg={useColorModeValue("green.400", "gray.700")}
         bg="p9"
@@ -52,16 +52,6 @@ export const SearchBar = (props) => {
           maxH="32"
           overflowY="auto"
           borderBottomRadius="10"
-          // sx={{
-          //   "&::-webkit-scrollbar": {
-          //     width: "16px",
-          //     borderRadius: "8px",
-          //     backgroundColor: `rgba(0, 0, 0, 0.05)`,
-          //   },
-          //   "&::-webkit-scrollbar-thumb": {
-          //     backgroundColor: `rgba(0, 0, 0, 0.05)`,
-          //   },
-          // }}
           w="100%"
           position="absolute"
           top="10"

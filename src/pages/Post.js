@@ -26,10 +26,53 @@ export default function Post() {
   const { blogData, currentUser } = useAuth();
   const { postid } = useParams();
   const [liked, setLiked] = useState(false);
+  const [likes, updateLikes] = useState();
   const [comment, setComment] = useState();
-  console.log(currentUser);
   const editor = useMemo(() => withReact(createEditor()), []);
   var likeNumber;
+
+  // useEffect(() => {
+  //   const currentLikeNo = blogData?.forEach((element) => {
+  //     if (element.id === postid) {
+  //       updateLikes(element.likeNo);
+  //       for (var i = 0; i < element.likedUsers.length; i++) {
+  //         if (element.likedUsers[i].liker === currentUser?.user.uid) {
+  //           setLiked(element.likedUsers[i].liked);
+  //         }
+  //       }
+  //     }
+  //     console.log("works" + likes);
+  //   });
+  //   return currentLikeNo;
+  // }, [blogData, currentUser?.user.uid, likes, postid]);
+
+  // const LikeSend = (liked) => {
+  //   setLiked(!liked);
+  //   if (liked) {
+  //     updateLikes(likes + 1);
+  //   } else {
+  //     updateLikes(likes - 1);
+  //   }
+  //   try {
+  //     blogData?.forEach((element) => {
+  //       if (element.id === postid) {
+  //         for (var i = 0; i < element.likedUsers.length; i++) {
+  //           if (element.likedUsers[i].liker !== currentUser?.user.uid) {
+  //             updateDoc(doc(db, "blogPost", postid), {
+  //               likedUsers: arrayUnion({
+  //                 liker: currentUser?.user.uid,
+  //                 liked: liked,
+  //               }),
+  //               likeNo: likes,
+  //             });
+  //           }
+  //         }
+  //       }
+
+  //   } catch (e) {
+  //     alert(e);
+  //   }
+  // };
 
   const BlockquoteStyle = {
     margin: "1.5em 10px",
@@ -136,19 +179,19 @@ export default function Post() {
     }
   };
 
-  const LikeSend = () => {
-    try {
-      updateDoc(doc(db, "blogPost", postid), {
-        likes: arrayUnion({
-          liker: currentUser?.user.uid,
-          liked: liked,
-        }),
-      });
-      setComment("");
-    } catch (e) {
-      alert(e);
-    }
-  };
+  // const LikeSend = () => {
+  //   try {
+  //     updateDoc(doc(db, "blogPost", postid), {
+  //       likes: arrayUnion({
+  //         liker: currentUser?.user.uid,
+  //         liked: liked,
+  //       }),
+  //     });
+  //     setComment("");
+  //   } catch (e) {
+  //     alert(e);
+  //   }
+  // };
 
   var comments,
     commentNo = 0;
@@ -170,7 +213,7 @@ export default function Post() {
         month++;
         return (
           <Box
-            key={data.commentor}
+            key={data.id}
             w={{ md: "md", sm: "90%" }}
             bg="white"
             boxShadow="sm"
@@ -185,7 +228,6 @@ export default function Post() {
           </Box>
         );
       });
-      console.log(blogData[i]);
     }
   }
 
@@ -255,14 +297,15 @@ export default function Post() {
 
       <Box display="flex" mt="10" alignItems="center">
         <Button
-          onClick={() => setLiked(!liked)}
+          // onClick={() => LikeSend(liked)}
           color={liked ? "primary" : "black"}
           borderRadius="full"
+          onClick={() => setLiked(!liked)}
         >
           <FaThumbsUp />
         </Button>
         <Text fontWeight="bold" fontSize="lg" ml="1" color="primary">
-          {likeNumber}
+          {likes}
         </Text>
       </Box>
       <Box mt="5" bg="gray.100" borderRadius="10">
@@ -271,6 +314,7 @@ export default function Post() {
           onChange={(e) => {
             setComment(e.target.value);
           }}
+          value={comment}
         />
         {comment && (
           <Button

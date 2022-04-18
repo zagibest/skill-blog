@@ -14,9 +14,6 @@ export default function Homepage() {
   const { blogData } = useAuth();
   const { authorData } = useAuth();
   const { currentUser } = useAuth();
-  console.log(authorData);
-  console.log(blogData);
-  console.log(currentUser?.user.uid);
 
   useEffect(() => {
     const sendData = () => {
