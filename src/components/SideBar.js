@@ -7,6 +7,7 @@ import {
   FaBook,
   FaUser,
   FaUsersCog,
+  FaUserAstronaut,
 } from "react-icons/fa";
 
 export function SideBar({
@@ -15,6 +16,7 @@ export function SideBar({
   setMenuNumber,
   currentMenu,
   admin,
+  superADMIN,
 }) {
   return (
     <Box display={{ md: "block", base: "none" }}>
@@ -105,6 +107,26 @@ export function SideBar({
                 Админ
               </Button>
             )}
+            {superADMIN && (
+              <Button
+                w="90%"
+                my="2"
+                display="flex"
+                justifyContent="flex-start"
+                variant="ghost"
+                onClick={() => setMenuNumber(5)}
+                bg={currentMenu === 5 ? "gray.100" : "none"}
+                _focus={{ border: "none" }}
+                leftIcon={
+                  <FaUsersCog
+                    fontSize="20px"
+                    color={currentMenu === 5 ? "#1f46cf" : "black"}
+                  />
+                }
+              >
+                Super Admin
+              </Button>
+            )}
           </Box>
         )}
         {!open && (
@@ -157,6 +179,21 @@ export function SideBar({
                 <FaUsersCog
                   fontSize="20px"
                   color={currentMenu === 4 ? "#1f46cf" : "black"}
+                />
+              </Button>
+            )}
+            {superADMIN && (
+              <Button
+                w="90%"
+                my="2"
+                variant="ghost"
+                onClick={() => setMenuNumber(5)}
+                bg={currentMenu === 5 ? "gray.100" : "none"}
+                _focus={{ border: "none" }}
+              >
+                <FaUserAstronaut
+                  fontSize="20px"
+                  color={currentMenu === 5 ? "#1f46cf" : "black"}
                 />
               </Button>
             )}

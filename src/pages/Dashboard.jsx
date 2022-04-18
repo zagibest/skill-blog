@@ -43,6 +43,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../utils/init-firebase";
+import { UserProfile } from "../components/UserProfile";
 
 export default function Dashboard() {
   const { blogData, authorData } = useAuth();
@@ -76,6 +77,24 @@ export default function Dashboard() {
   const deletePost = (id) => {
     try {
       deleteDoc(doc(db, "blogPost", id));
+      showToast();
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const deleteUser = (id) => {
+    try {
+      deleteDoc(doc(db, "authors", id));
+      showToast();
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const makeAdmin = (id) => {
+    try {
+      updateDoc(doc(db, "authors", id), { admin: true });
       showToast();
     } catch (e) {
       alert(e);
@@ -341,6 +360,7 @@ export default function Dashboard() {
         setMenuNumber={setMenuNumber}
         currentMenu={menuNumber}
         admin={selectedUser?.admin}
+        superADMIN={selectedUser?.superADMIN}
       />
       <Box display="flex" w="100%">
         <SideBar
@@ -349,6 +369,7 @@ export default function Dashboard() {
           setMenuNumber={setMenuNumber}
           currentMenu={menuNumber}
           admin={selectedUser?.admin}
+          superADMIN={selectedUser?.superADMIN}
         />
         <Box
           w="100%"
@@ -529,6 +550,23 @@ export default function Dashboard() {
                   </Button>
                 </Box>
                 <Box>{approvedButAdmin ? notApprovedAll : ApprovedAll}</Box>
+              </Box>
+            )}
+            {selectedUser?.superADMIN && menuNumber === 5 && (
+              <Box>
+                {authorData?.map((author) => {
+                  return (
+                    <UserProfile
+                      key={author.id}
+                      authorName={author.authorName}
+                      authorPro={author.authorPro}
+                      approvedPost={author.approvedPost}
+                      superADMIN={selectedUser?.superADMIN}
+                      deleteUser={() => deleteUser(author.id)}
+                      makeAdmin={() => makeAdmin(author.id)}
+                    />
+                  );
+                })}
               </Box>
             )}
           </Box>

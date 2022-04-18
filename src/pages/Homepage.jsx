@@ -9,6 +9,7 @@ import { Footer } from "../components/Footer";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../utils/init-firebase";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Homepage() {
   const { blogData } = useAuth();
@@ -41,11 +42,17 @@ export default function Homepage() {
   }, [currentUser]);
 
   var newAuthorData = [];
+  var newPostData = [];
 
   newAuthorData = authorData?.sort(function (a, b) {
     return a.approvedPost - b.approvedPost;
   });
   newAuthorData = newAuthorData?.reverse();
+
+  newPostData = blogData?.sort(function (a, b) {
+    return a.commentNo - b.commentNo;
+  });
+  newPostData = newPostData?.reverse();
 
   const authors = newAuthorData?.slice(0, 4).map((author) => {
     return (
@@ -58,7 +65,7 @@ export default function Homepage() {
     );
   });
 
-  const posts = blogData?.map((post) => {
+  const posts = newPostData.slice(0, 5)?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
       .getFullYear()
       .toString();
@@ -141,9 +148,12 @@ export default function Homepage() {
           Өөрийн ур чадвараа нийтлэлээр дамжуулан бусадтай хуваалцаарай
         </Text>
         <Box>
-          <Button fontFamily="heading" rightIcon={<FaPlus />}>
-            Нийтлэл бичих
-          </Button>
+          <Link to={currentUser ? "/dashboard" : "/login"}>
+            <Button fontFamily="heading" rightIcon={<FaPlus />}>
+              Нийтлэл бичих
+            </Button>
+          </Link>
+
           <Button fontFamily="heading" ml="4" rightIcon={<FaChevronDown />}>
             Унших
           </Button>

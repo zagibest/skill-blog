@@ -31,7 +31,12 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import Navlink from "./Navlink";
 
-export function DashboardNav({ setMenuNumber, currentMenu, admin }) {
+export function DashboardNav({
+  setMenuNumber,
+  currentMenu,
+  admin,
+  superADMIN,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { toggleColorMode } = useColorMode();
   // const { logout, currentUser } = useAuth()
@@ -154,6 +159,26 @@ export function DashboardNav({ setMenuNumber, currentMenu, admin }) {
                 leftIcon={<FaUsersCog fontSize="20px" />}
               >
                 Админ
+              </Button>
+            )}
+            {superADMIN && (
+              <Button
+                w="90%"
+                my="2"
+                display="flex"
+                justifyContent="flex-start"
+                variant="ghost"
+                onClick={() => setMenuNumber(5)}
+                bg={currentMenu === 5 ? "gray.100" : "none"}
+                _focus={{ border: "none" }}
+                leftIcon={
+                  <FaUsersCog
+                    fontSize="20px"
+                    color={currentMenu === 5 ? "#1f46cf" : "black"}
+                  />
+                }
+              >
+                Super Admin
               </Button>
             )}
           </DrawerBody>
