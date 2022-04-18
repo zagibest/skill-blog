@@ -20,7 +20,9 @@ export const UserProfile = (props) => {
           <Avatar src={props.authorPro} />
           <Box ml="2">
             <Text fontWeight="bold">{props.authorName}</Text>
-            <Text fontSize="sm">{props.approvedPost} нийтлэл</Text>
+            <Text fontSize="sm">
+              {props.approvedPost ? props.approvedPost + "нийтлэл" : ""}
+            </Text>
           </Box>
         </Box>
         <Box>

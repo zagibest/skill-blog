@@ -65,7 +65,7 @@ export default function Homepage() {
     );
   });
 
-  const posts = newPostData.slice(0, 5)?.map((post) => {
+  const posts = newPostData?.slice(0, 5)?.map((post) => {
     const year = new Date(post.dateCreated?.seconds * 1000)
       .getFullYear()
       .toString();
