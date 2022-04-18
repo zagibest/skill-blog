@@ -84,16 +84,7 @@ export function Navbar({ bg }) {
               }}
             />
           )}
-          {currentUser && (
-            <Navlink
-              to="/dashboard"
-              _hover={{
-                bg: "p9",
-              }}
-              fontSize="18px"
-              name={<FaPlusCircle />}
-            />
-          )}
+
           {currentUser && (
             <Navlink
               to="/dashboard"

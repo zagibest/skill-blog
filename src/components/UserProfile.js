@@ -34,7 +34,6 @@ export const UserProfile = (props) => {
               </Button>
             </>
           )}
-          {!props.superADMIN && <Button ml="2">Дагах</Button>}
         </Box>
       </Box>
     </LinkBox>

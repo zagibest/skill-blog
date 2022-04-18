@@ -59,6 +59,7 @@ export default function Dashboard() {
   const [selectedUser, setSelectedUser] = useState();
 
   var approvedPostNo = 0,
+    AllcommentNo = 0,
     pendingPostNo = 0;
 
   useEffect(() => {
@@ -215,6 +216,8 @@ export default function Dashboard() {
 
     month++;
     if (post.approved === true && post.authorId === currentUser?.user.uid) {
+      AllcommentNo += post.comments.length;
+
       approvedPostNo++;
       return (
         <PostCard
@@ -476,7 +479,7 @@ export default function Dashboard() {
                         <Text ml="2">Нийт үзсэн:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary">
-                        20
+                        coming soon...
                       </Text>
                     </Box>
                     <Box display="flex" justifyContent="space-between">
@@ -485,7 +488,7 @@ export default function Dashboard() {
                         <Text ml="2">Нийт лайк:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary">
-                        20
+                        coming soon...
                       </Text>
                     </Box>
                     <Box display="flex" justifyContent="space-between">
@@ -494,7 +497,7 @@ export default function Dashboard() {
                         <Text ml="2">Нийт сэтгэгдэл:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary">
-                        20
+                        {AllcommentNo}
                       </Text>
                     </Box>
                     <Divider my="4" />
@@ -504,19 +507,11 @@ export default function Dashboard() {
                         <Text ml="2">REPUTATION POINT:</Text>
                       </Text>
                       <Text fontSize="xl" color="primary" fontWeight="bold">
-                        20
+                        {AllcommentNo + approvedPostNo}
                       </Text>
                     </Box>
                   </Box>
-                  <Box flex="2" mt="5" ml={{ md: "10", base: "0" }}>
-                    <Text
-                      fontSize="xl"
-                      fontWeight="semibold"
-                      fontFamily="heading"
-                    >
-                      Хамгийн их хандалттай нийтлэлүүд
-                    </Text>
-                  </Box>
+                  <Box flex="2" mt="5" ml={{ md: "10", base: "0" }}></Box>
                 </Box>
               </Box>
             )}
@@ -535,7 +530,7 @@ export default function Dashboard() {
                     leftIcon={<FaPaperPlane />}
                     w={{ md: "48", base: "48%" }}
                     bg={approvedButAdmin ? "gray.200" : "transparent"}
-                    onClick={() => setApprovedButAdmin(false)}
+                    onClick={() => setApprovedButAdmin(true)}
                   >
                     Ирсэн
                   </Button>
@@ -543,7 +538,7 @@ export default function Dashboard() {
                     ml="2"
                     leftIcon={<FaCheck />}
                     w={{ md: "48", base: "48%" }}
-                    onClick={() => setApprovedButAdmin(true)}
+                    onClick={() => setApprovedButAdmin(false)}
                     bg={approvedButAdmin ? "transparent" : "gray.200"}
                   >
                     Нийтлэгдсэн
