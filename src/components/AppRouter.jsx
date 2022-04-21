@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -46,9 +46,9 @@ export default function AppRouter(props) {
 function ProtectedRoute(props) {
   const { currentUser } = useAuth();
   const { path } = props;
-  console.log("path", path);
+  // console.log("path", path);
   const location = useLocation();
-  console.log("location state", location.state);
+  // console.log("location state", location.state);
 
   if (
     path === "/login" ||

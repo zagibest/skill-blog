@@ -145,7 +145,7 @@ export default function Loginpage() {
             signInWithGoogle()
               .then((user) => {
                 handleRedirectToOrBack();
-                console.log(user);
+                // console.log(user);
               })
               .catch((e) => console.log(e.message))
           }

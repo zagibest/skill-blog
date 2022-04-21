@@ -10,11 +10,11 @@ import {
   Avatar,
   useToast,
   Badge,
-  useEditableControls,
-  ButtonGroup,
-  IconButton,
-  Flex,
-  Image,
+  // useEditableControls,
+  // ButtonGroup,
+  // IconButton,
+  // Flex,
+  // Image,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { DashboardNav } from "../components/DashboardNav";
@@ -50,7 +50,7 @@ export default function Dashboard() {
   const [approvedBut, setApprovedBut] = useState(true);
   const [approvedButAdmin, setApprovedButAdmin] = useState(true);
   const { currentUser } = useAuth();
-  console.log(currentUser?.user.uid);
+  // console.log(currentUser?.user.uid);
 
   const [open, setOpen] = useState(false);
   const [menuNumber, setMenuNumber] = useState(1);
@@ -71,7 +71,7 @@ export default function Dashboard() {
     return unsub;
   }, [currentUser, authorData]);
 
-  console.log("selectedUser", selectedUser);
+  // console.log("selectedUser", selectedUser);
 
   //Admin commands
 
@@ -217,8 +217,8 @@ export default function Dashboard() {
     month++;
     if (post.approved === true && post.authorId === currentUser?.user.uid) {
       AllcommentNo += post.comments.length;
-
       approvedPostNo++;
+
       return (
         <PostCard
           key={post.id}
@@ -344,7 +344,7 @@ export default function Dashboard() {
       alert(e);
     }
   };
-  console.log(newName);
+  // console.log(newName);
 
   const showToastFail = () => {
     toast({

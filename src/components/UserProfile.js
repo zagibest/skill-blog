@@ -1,14 +1,4 @@
-import {
-  Box,
-  Text,
-  Link,
-  Badge,
-  Grid,
-  Avatar,
-  Button,
-  LinkBox,
-  Divider,
-} from "@chakra-ui/react";
+import { Box, Text, Avatar, Button, LinkBox, Divider } from "@chakra-ui/react";
 import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 
 export const UserProfile = (props) => {

@@ -12,10 +12,20 @@ import {
   Heading,
   Button,
   Link,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Portal,
 } from "@chakra-ui/react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { FaCheck, FaTrash } from "react-icons/fa";
-import { createEditor, Descendant } from "slate";
+import { createEditor } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 
 export const PostCard = (props) => {
@@ -148,12 +158,44 @@ export const PostCard = (props) => {
             w="100%"
             display="flex"
           >
-            <Button onClick={props.approve}>
-              <FaCheck />
-            </Button>
-            <Button ml="2" onClick={props.delete}>
-              <FaTrash />
-            </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button ml="2">
+                  <FaCheck />
+                </Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverHeader>Нийтлэх үү?</PopoverHeader>
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <Button colorScheme="green" onClick={props.approve}>
+                      Тийм
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
+            <Popover>
+              <PopoverTrigger>
+                <Button ml="2">
+                  <FaTrash />
+                </Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverHeader>Устгах уу?</PopoverHeader>
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <Button colorScheme="red" onClick={props.delete}>
+                      Тийм
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
           </Box>
         </>
       )}
